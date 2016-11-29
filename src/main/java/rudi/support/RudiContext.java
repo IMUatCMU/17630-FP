@@ -1,11 +1,19 @@
 package rudi.support;
 
+import rudi.error.DuplicateVariableDeclarationException;
+import rudi.error.VariableNotInRegistrarException;
+import rudi.support.variable.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * All stateful information related to a single evaluation stack.
  * For instance, the main program will have its own context, a
  * subroutine will have its own context as well.
  */
-public class RudiContext {
+public class RudiContext implements VariableRegistrar {
 
     // =================================================================================================================
     // Create RudiContext
@@ -57,6 +65,54 @@ public class RudiContext {
     public void setSourceCode(RudiSource sourceCode) {
         this.sourceCode = sourceCode;
     }
+
+    // =================================================================================================================
+    // variable registrar
+    // =================================================================================================================
+
+    private Map<String, Variable> variableRegistrar = new HashMap<>();
+    private final Map<String, ModifyAccessPair> paramRegistrar = new HashMap<>();
+
+    public Map<String, ModifyAccessPair> getParamRegistrar() {
+        return paramRegistrar;
+    }
+
+    @Override
+    public void declare(Variable variable) {
+        assert variable.getType() != null;
+        assert variable.getName() != null && variable.getName().length() > 0;
+
+        if (this.paramRegistrar.containsKey(variable.getName()))
+            throw new DuplicateVariableDeclarationException(variable);
+        else if (this.variableRegistrar.containsKey(variable.getName()))
+            throw new DuplicateVariableDeclarationException(variable);
+
+        this.variableRegistrar.put(variable.getName(), variable);
+    }
+
+    @Override
+    public VariableModifier modifier(String name) {
+        if (this.paramRegistrar.containsKey(name))
+            return this.paramRegistrar.get(name).getModifier();
+        else if (this.variableRegistrar.containsKey(name))
+            return new VariableModifierImpl(name, this.variableRegistrar);
+
+        throw new VariableNotInRegistrarException(name);
+    }
+
+    @Override
+    public VariableAccessor accessor(String name) {
+        if (this.paramRegistrar.containsKey(name))
+            return this.paramRegistrar.get(name).getAccessor();
+        else if (this.variableRegistrar.containsKey(name))
+            return new VariableAccessorImpl(name, this.variableRegistrar);
+
+        throw new VariableNotInRegistrarException(name);
+    }
+
+    // =================================================================================================================
+    // comment
+    // =================================================================================================================
 
     /**
      * A boolean flag indicating whether we are in comment
