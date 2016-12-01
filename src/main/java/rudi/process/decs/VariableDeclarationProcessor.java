@@ -1,6 +1,7 @@
 package rudi.process.decs;
 
 import rudi.error.CannotProcessLineException;
+import rudi.error.DuplicateVariableDeclarationException;
 import rudi.process.LineProcessor;
 import rudi.support.RudiStack;
 import rudi.support.RudiUtils;
@@ -70,6 +71,13 @@ public class VariableDeclarationProcessor implements LineProcessor {
         // maybe do some additional checks for variable name formats
         // i.e. a-zA-Z0-9 and do not start with number
 
-        RudiStack.getInstance().peek().declare(new Variable(type, variableName));
+        try {
+            RudiStack.getInstance().peek().declare(new Variable(type, variableName));
+        } catch (DuplicateVariableDeclarationException ex) {
+            throw new CannotProcessLineException(
+                    RudiUtils.resolveGlobalLineNumber(lineNumber),
+                    ex.getMessage()
+            );
+        }
     }
 }
