@@ -5,7 +5,6 @@ import rudi.error.VariableNotInRegistrarException;
 import rudi.support.variable.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -127,5 +126,73 @@ public class RudiContext implements VariableRegistrar {
 
     public void setComment(boolean comment) {
         this.comment = comment;
+    }
+
+    // =================================================================================================================
+    // bracketDepth
+    // =================================================================================================================
+
+    /**
+     * Record the level of bracket we are in. Should start
+     * with 0 and end with 0
+     */
+    private int bracketDepth = 0;
+
+    public int getBracketDepth() {
+        return bracketDepth;
+    }
+
+    public void setBracketDepth(int bracketDepth) {
+        this.bracketDepth = bracketDepth;
+    }
+
+    // =================================================================================================================
+    // declarationMode
+    // =================================================================================================================
+
+    /**
+     * A boolean flag indicating we are in the middle
+     * of declaring variables.
+     */
+    private boolean declarationMode = false;
+
+    public boolean isDeclarationMode() {
+        return declarationMode;
+    }
+
+    public void setDeclarationMode(boolean declarationMode) {
+        this.declarationMode = declarationMode;
+    }
+
+    // =================================================================================================================
+    // executionMode
+    // =================================================================================================================
+
+    /**
+     * A boolean flag indicating we are in the middle
+     * of executing statements.
+     */
+    private boolean executionMode = false;
+
+    public boolean isExecutionMode() {
+        return executionMode;
+    }
+
+    public void setExecutionMode(boolean executionMode) {
+        this.executionMode = executionMode;
+    }
+
+    // =================================================================================================================
+    // ifThenElseCount
+    // =================================================================================================================
+
+    private int ifThenElseCount = 0;
+
+    public int getIfThenElseCount() {
+        return ifThenElseCount;
+    }
+
+    public void setIfThenElseCount(int ifThenElseCount) {
+        this.ifThenElseCount = ifThenElseCount;
     }
 }
