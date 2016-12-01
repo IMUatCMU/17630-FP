@@ -34,7 +34,9 @@ public class DecsLineProcessor implements LineProcessor {
     public void doProcess(int lineNumber, String line) {
         line = RudiUtils.stripComments(line).trim();
         if (!line.toLowerCase().equals(RudiConstant.DECS)) {
-            throw new CannotProcessLineException(lineNumber, "Does not recognized declaration block syntax: " + line);
+            throw new CannotProcessLineException(
+                    RudiUtils.resolveGlobalLineNumber(lineNumber),
+                    "Does not recognized declaration block syntax: " + line);
         }
 
         RudiStack.getInstance().peek().setDeclarationMode(true);
