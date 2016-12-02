@@ -51,11 +51,11 @@ public class ArithmeticOperatorToken extends Token {
     @Override
     public int priority() {
         if (isMultiplication()) {
-            return 1003;
+            return 1002;
         } else if (isDivision()) {
             return 1002;
         } else if (isAddition()) {
-            return 1001;
+            return 1000;
         } else if (isSubtraction()) {
             return 1000;
         } else {

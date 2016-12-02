@@ -26,6 +26,9 @@ public class TokenFactory {
     public static Token create(String faceValue) {
         faceValue = faceValue.trim();
 
+        if (LEFT_PAREN.equals(faceValue) || RIGHT_PAREN.equals(faceValue))
+            return new ParenthesisToken(faceValue);
+
         if (isArithmetic(faceValue)) {
             return new ArithmeticOperatorToken(faceValue);
         } else if (isLogical(faceValue)) {
