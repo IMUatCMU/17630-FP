@@ -76,7 +76,7 @@ public class ArithmeticOperatorToken extends Token {
                         result.toString(),
                         new Constant(VarType.FLOAT, result));
             } else {
-                throw new FailedToEvaluateExpressionException("Cannot add type <" + c1.getType() + "> with type < " + c2.getType() + ">");
+                throw new FailedToEvaluateExpressionException("Cannot perform <" + this.faceValue + "> on type <" + c1.getType() + "> and type < " + c2.getType() + ">");
             }
         });
     }

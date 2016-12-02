@@ -10,7 +10,7 @@ import rudi.support.expression.token.TokenFactory;
 import rudi.support.variable.VarType;
 
 @RunWith(JUnit4.class)
-public class EvaluatorTest {
+public class ArithmeticEvaluatorTest {
 
     @Test
     public void testAddIntToInt() {

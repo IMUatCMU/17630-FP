@@ -5,5 +5,10 @@ package rudi.support.variable;
  */
 public enum VarType {
 
-    INTEGER, FLOAT, STRING
+    INTEGER, FLOAT, STRING,
+
+    /**
+     * boolean is for internal use only
+     */
+    BOOLEAN
 }
