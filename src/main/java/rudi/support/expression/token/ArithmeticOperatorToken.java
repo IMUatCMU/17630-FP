@@ -39,6 +39,21 @@ public class ArithmeticOperatorToken extends Token {
     }
 
     @Override
+    public int priority() {
+        if (isMultiplication()) {
+            return 1003;
+        } else if (isDivision()) {
+            return 1002;
+        } else if (isAddition()) {
+            return 1001;
+        } else if (isSubtraction()) {
+            return 1000;
+        } else {
+            return 0;
+        }
+    }
+
+    @Override
     public Evaluator evaluator() {
         return ((lhs, rhs) -> {
             if (!lhs.isOperand() || !rhs.isOperand())

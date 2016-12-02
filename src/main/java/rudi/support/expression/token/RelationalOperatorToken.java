@@ -48,6 +48,11 @@ public class RelationalOperatorToken extends Token {
     }
 
     @Override
+    public int priority() {
+        return 100;
+    }
+
+    @Override
     public Evaluator evaluator() {
         return ((lhs, rhs) -> {
             if (!lhs.isOperand() || !rhs.isOperand())

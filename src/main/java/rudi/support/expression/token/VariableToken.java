@@ -27,6 +27,11 @@ public class VariableToken extends Token {
     }
 
     @Override
+    public int priority() {
+        return 0;
+    }
+
+    @Override
     public Evaluator evaluator() {
         return ((lhs, rhs) -> {
             Variable var = this.accessor.access();

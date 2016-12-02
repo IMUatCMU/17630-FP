@@ -20,4 +20,6 @@ abstract public class Token {
     public abstract Evaluator evaluator();
 
     public abstract boolean isOperand();
+
+    public abstract int priority();
 }

@@ -32,6 +32,19 @@ public class LogicalOperatorToken extends Token {
         return false;
     }
 
+    @Override
+    public int priority() {
+        if (isNot()) {
+            return 12;
+        } else if (isAnd()) {
+            return 11;
+        } else if (isOr()) {
+            return 10;
+        } else {
+            return 0;
+        }
+    }
+
     /**
      * Don't forget to pass a dummy boolean token as rhs in the case of 'not' operator
      * @return
