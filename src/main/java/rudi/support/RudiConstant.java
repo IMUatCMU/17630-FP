@@ -30,4 +30,5 @@ public class RudiConstant {
     public static final String LEFT_PAREN = "(";
     public static final String RIGHT_PAREN = ")";
     public static final String EQUAL_SIGN = "=";
+    public static final String CR = "cr";
 }
