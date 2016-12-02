@@ -1,6 +1,7 @@
 package rudi.support.expression.token;
 
 import rudi.support.RudiConstant;
+import rudi.support.expression.eval.Evaluator;
 
 /**
  * A relational operator token in expression
@@ -33,5 +34,15 @@ public class RelationalOperatorToken extends Token {
 
     public boolean isLessEqual() {
         return RudiConstant.LE.equals(faceValue.toLowerCase());
+    }
+
+    @Override
+    public boolean isOperand() {
+        return false;
+    }
+
+    @Override
+    public Evaluator evaluator() {
+        return null;
     }
 }

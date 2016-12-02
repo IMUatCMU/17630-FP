@@ -1,6 +1,7 @@
 package rudi.support.expression.token;
 
 import rudi.support.RudiConstant;
+import rudi.support.expression.eval.Evaluator;
 
 /**
  * A logical operator in expression
@@ -21,5 +22,15 @@ public class LogicalOperatorToken extends Token {
 
     public boolean isNot() {
         return RudiConstant.NOT.equals(faceValue.toLowerCase());
+    }
+
+    @Override
+    public boolean isOperand() {
+        return false;
+    }
+
+    @Override
+    public Evaluator evaluator() {
+        return null;
     }
 }

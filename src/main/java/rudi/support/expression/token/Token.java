@@ -1,5 +1,7 @@
 package rudi.support.expression.token;
 
+import rudi.support.expression.eval.Evaluator;
+
 /**
  * A token in expression
  */
@@ -14,4 +16,8 @@ abstract public class Token {
     public String getFaceValue() {
         return faceValue;
     }
+
+    public abstract Evaluator evaluator();
+
+    public abstract boolean isOperand();
 }
