@@ -39,6 +39,16 @@ public class ArithmeticOperatorToken extends Token {
     }
 
     @Override
+    public boolean isOperator() {
+        return true;
+    }
+
+    @Override
+    public boolean isParenthesis() {
+        return false;
+    }
+
+    @Override
     public int priority() {
         if (isMultiplication()) {
             return 1003;

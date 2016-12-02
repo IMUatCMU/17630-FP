@@ -27,4 +27,6 @@ public class RudiConstant {
     public static final String AND = "^";
     public static final String OR = "|";
     public static final String NOT = "~";
+    public static final String LEFT_PAREN = "(";
+    public static final String RIGHT_PAREN = ")";
 }

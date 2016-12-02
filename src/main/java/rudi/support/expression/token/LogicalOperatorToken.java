@@ -33,6 +33,16 @@ public class LogicalOperatorToken extends Token {
     }
 
     @Override
+    public boolean isOperator() {
+        return true;
+    }
+
+    @Override
+    public boolean isParenthesis() {
+        return false;
+    }
+
+    @Override
     public int priority() {
         if (isNot()) {
             return 12;

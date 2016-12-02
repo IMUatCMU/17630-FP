@@ -21,5 +21,9 @@ abstract public class Token {
 
     public abstract boolean isOperand();
 
+    public abstract boolean isOperator();
+
+    public abstract boolean isParenthesis();
+
     public abstract int priority();
 }

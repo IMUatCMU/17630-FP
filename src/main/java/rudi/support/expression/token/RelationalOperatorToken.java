@@ -48,6 +48,16 @@ public class RelationalOperatorToken extends Token {
     }
 
     @Override
+    public boolean isOperator() {
+        return true;
+    }
+
+    @Override
+    public boolean isParenthesis() {
+        return false;
+    }
+
+    @Override
     public int priority() {
         return 100;
     }

@@ -25,6 +25,16 @@ public class ConstantToken extends Token {
     }
 
     @Override
+    public boolean isOperator() {
+        return false;
+    }
+
+    @Override
+    public boolean isParenthesis() {
+        return false;
+    }
+
+    @Override
     public int priority() {
         return 0;
     }

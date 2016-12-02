@@ -27,6 +27,16 @@ public class VariableToken extends Token {
     }
 
     @Override
+    public boolean isOperator() {
+        return false;
+    }
+
+    @Override
+    public boolean isParenthesis() {
+        return false;
+    }
+
+    @Override
     public int priority() {
         return 0;
     }
