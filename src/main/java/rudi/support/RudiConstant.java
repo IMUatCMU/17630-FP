@@ -14,4 +14,17 @@ public class RudiConstant {
     public static final String TYPE_INTEGER = "integer";
     public static final String TYPE_FLOAT = "float";
     public static final String TYPE_STRING = "string";
+    public static final String ADD = "+";
+    public static final String MINUS = "-";
+    public static final String MULTIPLY = "*";
+    public static final String DIVIDE = "/";
+    public static final String EQ = ":eq:";
+    public static final String NE = ":ne:";
+    public static final String GT = ":gt:";
+    public static final String LT = ":lt:";
+    public static final String GE = ":ge:";
+    public static final String LE = ":le:";
+    public static final String AND = "^";
+    public static final String OR = "|";
+    public static final String NOT = "~";
 }

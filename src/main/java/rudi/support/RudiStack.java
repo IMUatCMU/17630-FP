@@ -10,6 +10,10 @@ public class RudiStack extends Stack<RudiContext> {
 
     private static RudiStack instance;
 
+    public static RudiContext currentContext() {
+        return getInstance().peek();
+    }
+
     public static RudiStack getInstance() {
         if (null == instance) {
             instance = new RudiStack();
