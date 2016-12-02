@@ -3,6 +3,7 @@ package rudi.process.decs;
 import rudi.error.CannotProcessLineException;
 import rudi.error.DuplicateVariableDeclarationException;
 import rudi.process.LineProcessor;
+import rudi.support.RudiConstant;
 import rudi.support.RudiStack;
 import rudi.support.RudiUtils;
 import rudi.support.variable.VarType;
@@ -67,6 +68,12 @@ public class VariableDeclarationProcessor implements LineProcessor {
             variableName = line.substring((TYPE_STRING + SPACE).length()).trim();
         }
 
+        if (RudiConstant.RESERVED_WORDS.contains(variableName)) {
+            throw new CannotProcessLineException(
+                    RudiUtils.resolveGlobalLineNumber(lineNumber),
+                    "<" + variableName + "> is reserved."
+            );
+        }
         // TODO
         // maybe do some additional checks for variable name formats
         // i.e. a-zA-Z0-9 and do not start with number

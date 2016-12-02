@@ -78,4 +78,16 @@ public class VariableDeclarationProcessorTests {
 
         VariableDeclarationProcessor.getInstance().doProcess(1, code);
     }
+
+    @Test(expected = CannotProcessLineException.class)
+    public void testDeclareVairableWithReservedName() {
+        String code = "string cr";
+
+        RudiContext ctx = RudiContext.defaultContext();
+        ctx.setSourceCode(new RudiSource(Arrays.asList(code)));
+        ctx.setDeclarationMode(false);
+        RudiStack.getInstance().push(ctx);
+
+        VariableDeclarationProcessor.getInstance().doProcess(1, code);
+    }
 }

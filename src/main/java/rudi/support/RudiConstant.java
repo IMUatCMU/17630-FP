@@ -1,5 +1,8 @@
 package rudi.support;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Constants
  */
@@ -31,4 +34,17 @@ public class RudiConstant {
     public static final String RIGHT_PAREN = ")";
     public static final String EQUAL_SIGN = "=";
     public static final String CR = "cr";
+
+    public static final List<String> RESERVED_WORDS = Arrays.asList(
+            START_COMMENT, END_COMMENT,
+            PRINT_COMMAND,
+            DECS,
+            TYPE_INTEGER, TYPE_FLOAT, TYPE_STRING,
+            ADD, MINUS, MULTIPLY, DIVIDE,
+            EQ, NE, GT, GE, LT, LE,
+            AND, OR, NOT,
+            LEFT_PAREN, RIGHT_PAREN,
+            EQUAL_SIGN,
+            CR
+    );
 }
