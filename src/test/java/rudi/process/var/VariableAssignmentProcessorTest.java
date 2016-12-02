@@ -25,6 +25,7 @@ public class VariableAssignmentProcessorTest {
     @Test
     public void testAssigningExpressionWithOtherVariable() {
         RudiContext ctx = RudiContext.defaultContext();
+        ctx.setExecutionMode(true);
         ctx.declare(new Variable(VarType.INTEGER, "x"));
         ctx.declare(new Variable(VarType.INTEGER, "y"));
         RudiStack.getInstance().push(ctx);
@@ -36,6 +37,7 @@ public class VariableAssignmentProcessorTest {
 
     private void testBody(String code, Integer expectedResult) {
         RudiContext ctx = RudiContext.defaultContext();
+        ctx.setExecutionMode(true);
         ctx.declare(new Variable(VarType.INTEGER, "x"));
         RudiStack.getInstance().push(ctx);
 

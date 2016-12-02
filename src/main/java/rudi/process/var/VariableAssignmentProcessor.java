@@ -45,6 +45,13 @@ public class VariableAssignmentProcessor implements LineProcessor {
 
     @Override
     public void doProcess(int lineNumber, String line) {
+        if (!RudiStack.currentContext().isExecutionMode()) {
+            throw new CannotProcessLineException(
+                    RudiUtils.resolveGlobalLineNumber(lineNumber),
+                    "Misplaced value assignment: " + line
+            );
+        }
+
         line = RudiUtils.stripComments(line).trim();
 
         String variableName = line.substring(0, line.indexOf(RudiConstant.EQUAL_SIGN)).trim();
