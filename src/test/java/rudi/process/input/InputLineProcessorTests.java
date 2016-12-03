@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import rudi.error.CannotProcessLineException;
 import rudi.support.RudiContext;
 import rudi.support.RudiSource;
 import rudi.support.RudiStack;
@@ -72,7 +73,7 @@ public class InputLineProcessorTests {
         Assert.assertEquals(101, context.accessor("myInt").access().getValue());
     }
 
-    @Test
+    @Test(expected = CannotProcessLineException.class)
     public void testStringInputToIntVariable() {
         ByteArrayInputStream myIn = new ByteArrayInputStream("Michael".getBytes());
         System.setIn(myIn);
@@ -86,7 +87,5 @@ public class InputLineProcessorTests {
 
         Assert.assertTrue(InputLineProcessor.getInstance().canProcess(source.getLine(1)));
         InputLineProcessor.getInstance().doProcess(1, source.getLine(1));
-
-        // The application should not crash.
     }
 }

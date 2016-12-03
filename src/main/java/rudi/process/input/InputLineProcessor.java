@@ -75,10 +75,11 @@ public class InputLineProcessor implements LineProcessor {
             throw new CannotProcessLineException(
                     RudiUtils.resolveGlobalLineNumber(lineNumber),
                     "use of undeclared identifier '" + varName + "'");
-        } catch (TypeMismatchException e) {
-            // Should never come here, implementation issue.
-        } catch (InputMismatchException e) {
-            // Happens if you ask for an int but user puts in string
+        } catch (TypeMismatchException | InputMismatchException e) {
+            throw new CannotProcessLineException(
+                    RudiUtils.resolveGlobalLineNumber(lineNumber),
+                    "Mismatched type between input and variable."
+            );
         }
     }
 }
