@@ -38,6 +38,9 @@ public class RudiConstant {
     public static final String RIGHT_PAREN = ")";
     public static final String EQUAL_SIGN = "=";
     public static final String CR = "cr";
+    public static final String START_BRAC = "[";
+    public static final String END_BRAC = "]";
+    public static final String MAIN_PROGRAM_KEY = "main";
 
     public static final List<String> RESERVED_WORDS = Arrays.asList(
             START_COMMENT, END_COMMENT,
@@ -51,6 +54,7 @@ public class RudiConstant {
             EQ, NE, GT, GE, LT, LE,
             AND, OR, NOT,
             LEFT_PAREN, RIGHT_PAREN,
+            START_BRAC, END_BRAC,
             EQUAL_SIGN,
             CR
     );

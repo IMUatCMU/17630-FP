@@ -1,14 +1,15 @@
 package rudi.process.program;
 
-import rudi.error.CannotProcessLineException;
 import rudi.process.LineProcessor;
 import rudi.support.RudiConstant;
 import rudi.support.RudiContext;
+import rudi.support.RudiSourceRegistry;
 import rudi.support.RudiStack;
 
 /**
  * An implementation of {@link rudi.process.LineProcessor} that executes
- * the 'program' command.
+ * the 'program' command. The source registry should already have set
+ * the main source.
  */
 public class ProgramLineProcessor implements LineProcessor {
 
@@ -32,6 +33,7 @@ public class ProgramLineProcessor implements LineProcessor {
     @Override
     public void doProcess(int lineNumber, String line) {
         RudiContext context = RudiContext.defaultContext();
+        context.setSourceCode(RudiSourceRegistry.getInstance().get(RudiConstant.MAIN_PROGRAM_KEY));
         RudiStack.getInstance().push(context);
     }
 }

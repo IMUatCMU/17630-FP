@@ -146,6 +146,14 @@ public class RudiContext implements VariableRegistrar {
         this.bracketDepth = bracketDepth;
     }
 
+    public void increaseBracketDepth() {
+        bracketDepth++;
+    }
+
+    public void decreaseBracketDepth() {
+        bracketDepth--;
+    }
+
     // =================================================================================================================
     // declarationMode
     // =================================================================================================================
