@@ -40,6 +40,7 @@ public class RudiConstant {
     public static final List<String> RESERVED_WORDS = Arrays.asList(
             START_COMMENT, END_COMMENT,
             PROGRAM_COMMAND,
+            STOP_COMMAND,
             PRINT_COMMAND,
             DECS,
             TYPE_INTEGER, TYPE_FLOAT, TYPE_STRING,
