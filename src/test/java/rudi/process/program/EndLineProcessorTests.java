@@ -16,6 +16,7 @@ public class EndLineProcessorTests {
 
     @Test
     public void testEndLineProcessor() {
+        RudiStack.getInstance().removeAllElements();
         RudiStack.getInstance().push(RudiContext.defaultContext());
         RudiStack.currentContext().setExecutionMode(true);
 

@@ -6,7 +6,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import rudi.error.CannotProcessLineException;
 import rudi.support.RudiContext;
+import rudi.support.RudiSource;
 import rudi.support.RudiStack;
+
+import java.util.Arrays;
 
 @RunWith(JUnit4.class)
 public class DecsLineProcessorTest {
@@ -38,8 +41,10 @@ public class DecsLineProcessorTest {
     @Test(expected = CannotProcessLineException.class)
     public void testDecsWithBracketOnSameLevel() {
         String code = "   decs [ /* this is a comment */";
+        RudiSource source = new RudiSource(Arrays.asList(code));
 
         RudiContext ctx = RudiContext.defaultContext();
+        ctx.setSourceCode(source);
         RudiStack.getInstance().push(ctx);
 
         Assert.assertFalse(RudiStack.getInstance().peek().isDeclarationMode());
