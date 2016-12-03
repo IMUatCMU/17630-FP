@@ -14,6 +14,8 @@ public class RudiConstant {
     public static final String PRINT_COMMAND = "print";
     public static final String PROGRAM_COMMAND = "program";
     public static final String STOP_COMMAND = "stop";
+    public static final String BEGIN_COMMAND = "begin";
+    public static final String END_COMMAND = "end";
     public static final String DOUBLE_QUOTE = "\"";
     public static final String DECS = "decs";
     public static final String TYPE_INTEGER = "integer";
@@ -41,6 +43,7 @@ public class RudiConstant {
             START_COMMENT, END_COMMENT,
             PROGRAM_COMMAND,
             STOP_COMMAND,
+            BEGIN_COMMAND, END_COMMAND,
             PRINT_COMMAND,
             DECS,
             TYPE_INTEGER, TYPE_FLOAT, TYPE_STRING,
