@@ -18,6 +18,7 @@ public class RudiConstant {
     public static final String BEGIN_COMMAND = "begin";
     public static final String END_COMMAND = "end";
     public static final String RETURN_COMMAND = "return";
+    public static final String INPUT_COMMAND = "input";
     public static final String DOUBLE_QUOTE = "\"";
     public static final String DECS = "decs";
     public static final String TYPE_INTEGER = "integer";
@@ -51,6 +52,7 @@ public class RudiConstant {
             STOP_COMMAND,
             BEGIN_COMMAND, END_COMMAND, RETURN_COMMAND,
             PRINT_COMMAND,
+            INPUT_COMMAND,
             DECS,
             TYPE_INTEGER, TYPE_FLOAT, TYPE_STRING,
             ADD, MINUS, MULTIPLY, DIVIDE,
