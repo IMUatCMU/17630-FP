@@ -64,6 +64,10 @@ public class RudiSource {
         this.globalLineOffset = 0;
     }
 
+    public RudiSource clone() {
+        return new RudiSource(this, 1, this.totalLines());
+    }
+
     /**
      * Get the source line at line X.
      *
@@ -72,6 +76,15 @@ public class RudiSource {
      */
     public String getLine(int lineNumber) {
         return this.source.get(lineNumber-1);
+    }
+
+    /**
+     * Update the source
+     * @param lineNuber
+     * @param newSource
+     */
+    public void updateLine(int lineNuber, String newSource) {
+        this.source.set(lineNuber-1, newSource);
     }
 
     /**

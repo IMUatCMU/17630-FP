@@ -13,9 +13,11 @@ public class RudiConstant {
     public static final String END_COMMENT = "*/";
     public static final String PRINT_COMMAND = "print";
     public static final String PROGRAM_COMMAND = "program";
+    public static final String SUBROUTINE_COMMAND = "subroutine";
     public static final String STOP_COMMAND = "stop";
     public static final String BEGIN_COMMAND = "begin";
     public static final String END_COMMAND = "end";
+    public static final String RETURN_COMMAND = "return";
     public static final String DOUBLE_QUOTE = "\"";
     public static final String DECS = "decs";
     public static final String TYPE_INTEGER = "integer";
@@ -41,12 +43,13 @@ public class RudiConstant {
     public static final String START_BRAC = "[";
     public static final String END_BRAC = "]";
     public static final String MAIN_PROGRAM_KEY = "main";
+    public static final String CONTINUATION = "&";
 
     public static final List<String> RESERVED_WORDS = Arrays.asList(
             START_COMMENT, END_COMMENT,
-            PROGRAM_COMMAND,
+            PROGRAM_COMMAND, SUBROUTINE_COMMAND,
             STOP_COMMAND,
-            BEGIN_COMMAND, END_COMMAND,
+            BEGIN_COMMAND, END_COMMAND, RETURN_COMMAND,
             PRINT_COMMAND,
             DECS,
             TYPE_INTEGER, TYPE_FLOAT, TYPE_STRING,
@@ -56,6 +59,7 @@ public class RudiConstant {
             LEFT_PAREN, RIGHT_PAREN,
             START_BRAC, END_BRAC,
             EQUAL_SIGN,
+            CONTINUATION,
             CR
     );
 }
