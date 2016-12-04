@@ -5,7 +5,9 @@ import rudi.error.CannotReadSourceException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -97,5 +99,21 @@ public class RudiSource {
 
     public int getGlobalLineOffset() {
         return globalLineOffset;
+    }
+
+    public List<String> getParameterList() {
+        Optional<String> declaration = this.source.stream()
+                .filter(s -> RudiUtils.stripComments(s).trim().startsWith(RudiConstant.SUBROUTINE_COMMAND))
+                .findFirst();
+        if (!declaration.isPresent())
+            return new ArrayList<>();
+        else {
+            String s = declaration.get();
+            s = s.substring(s.indexOf(RudiConstant.LEFT_PAREN) + 1, s.indexOf(RudiConstant.RIGHT_PAREN));
+            return Arrays.stream(s.split(RudiConstant.COMMA))
+                    .map(String::trim)
+                    .filter(str -> !str.isEmpty())
+                    .collect(Collectors.toList());
+        }
     }
 }

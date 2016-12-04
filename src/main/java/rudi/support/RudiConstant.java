@@ -9,6 +9,7 @@ import java.util.List;
 public class RudiConstant {
 
     public static final String SPACE = " ";
+    public static final String COMMA = ",";
     public static final String START_COMMENT = "/*";
     public static final String END_COMMENT = "*/";
     public static final String PRINT_COMMAND = "print";

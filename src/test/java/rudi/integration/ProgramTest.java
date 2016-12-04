@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import rudi.process.DefaultLineProcessor;
 import rudi.process.DelegatingLineProcessor;
 import rudi.process.LineProcessor;
 import rudi.process.comment.EndCommentModeLineProcessor;
@@ -12,6 +13,7 @@ import rudi.process.comment.IgnoreCommentLineProcessor;
 import rudi.process.comment.StartCommentModeLineProcessor;
 import rudi.process.decs.DecsLineProcessor;
 import rudi.process.decs.VariableDeclarationProcessor;
+import rudi.process.pre.SourcePreProcessor;
 import rudi.process.print.PrintLineProcessor;
 import rudi.process.program.*;
 import rudi.process.var.VariableAssignmentProcessor;
@@ -76,5 +78,49 @@ public class ProgramTest {
         }
 
         Assert.assertEquals("x is 2\ny is 3.1\nz is hello", myOut.toString());
+    }
+
+    @Test
+    public void testSubRoutineWithoutControlStructures() {
+        RudiSource source = new RudiSource(Arrays.asList(
+                "program",
+                "decs",
+                "[",
+                "   integer x /* an inline comment */",
+                "   float y",
+                "   string z",
+                "]",
+                "begin",
+                "   x = 2",
+                "   y = 1.1 + x",
+                "   z = \"hello\"",
+                "   foo(x, y)",
+                "   print z",
+                "end",
+                "",
+                "/* some comment */",
+                "subroutine foo(a, b)",
+                "decs",
+                "[",
+                "   string x",
+                "]",
+                "begin",
+                "   x = \"world\"",
+                "   print x",
+                "   print cr",
+                "   print a",
+                "   print cr",
+                "   print b",
+                "   print cr",
+                "return"
+        ));
+        SourcePreProcessor.process(source);
+
+        RudiSource main = RudiSourceRegistry.getInstance().get(RudiConstant.MAIN_PROGRAM_KEY);
+        for (int i = 1; i <= main.totalLines(); i++) {
+            DefaultLineProcessor.getInstance().doProcess(i, main.getLine(i));
+        }
+
+        Assert.assertEquals("world\n2\n3.1\nhello", myOut.toString());
     }
 }
