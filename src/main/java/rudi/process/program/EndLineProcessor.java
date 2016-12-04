@@ -25,7 +25,7 @@ public class EndLineProcessor implements LineProcessor {
 
     @Override
     public boolean canProcess(String line) {
-        return line.trim().toLowerCase().startsWith(RudiConstant.END_COMMAND);
+        return line.trim().toLowerCase().equals(RudiConstant.END_COMMAND);
     }
 
     @Override

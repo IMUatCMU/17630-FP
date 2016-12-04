@@ -1,18 +1,14 @@
 package rudi.process.control;
 
 import rudi.error.CannotProcessLineException;
-import rudi.error.FailedToEvaluateExpressionException;
-import rudi.error.UnrecognizedTokenException;
 import rudi.process.LineProcessor;
+import rudi.support.RudiConstant;
 import rudi.support.RudiContext;
 import rudi.support.RudiStack;
 import rudi.support.RudiUtils;
-import rudi.support.expression.eval.ExpressionResolver;
-import rudi.support.expression.token.Tokenizer;
-import rudi.support.literal.Constant;
-import rudi.support.variable.VarType;
 
-import static rudi.support.RudiConstant.*;
+import static rudi.support.RudiConstant.IF;
+import static rudi.support.RudiConstant.THEN;
 
 /**
  * Created by davidiamyou on 2016-12-03.
@@ -33,7 +29,7 @@ public class IfThenElseLineProcessor implements LineProcessor {
     @Override
     public boolean canProcess(String line) {
         String s = RudiUtils.stripComments(line).trim().toLowerCase();
-        return s.startsWith(IF) && s.endsWith(THEN);
+        return s.startsWith(IF + RudiConstant.SPACE);
     }
 
     @Override
@@ -46,6 +42,13 @@ public class IfThenElseLineProcessor implements LineProcessor {
 
         // Extract and evaluate condition expression
         line = RudiUtils.stripComments(line).trim();
+        if (!line.endsWith(THEN)) {
+            throw new CannotProcessLineException(
+                    RudiUtils.resolveGlobalLineNumber(lineNumber),
+                    "Bad syntax for if statement, forgot 'then'?"
+            );
+        }
+
         String expression = line.substring(IF.length() + 1, line.length() - THEN.length()).trim();
         RudiStack.currentContext().setControlExpressionBracketDepth(RudiStack.currentContext().getBracketDepth());
         RudiStack.currentContext().setControlExpressionLineNumber(lineNumber);

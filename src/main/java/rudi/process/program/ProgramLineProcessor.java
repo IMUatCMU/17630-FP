@@ -27,7 +27,7 @@ public class ProgramLineProcessor implements LineProcessor {
 
     @Override
     public boolean canProcess(String line) {
-        return line.trim().toLowerCase().startsWith(RudiConstant.PROGRAM_COMMAND);
+        return line.trim().toLowerCase().equals(RudiConstant.PROGRAM_COMMAND);
     }
 
     @Override

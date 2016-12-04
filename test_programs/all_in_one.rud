@@ -1,0 +1,114 @@
+program
+decs
+[
+	integer x
+	float y
+	string Seinfeld
+]
+begin
+
+print "Everything and the kitchen sink test script \n (newline character shouldn't create a new line!)"
+print "."
+print cr
+
+x = 1
+
+Seinfeld = "Hello Newman"
+
+while ( x :lt: 4 )
+[
+	y = 4.0
+	print "Outer Loop "
+	print x
+	while ( y :gt: 0 )
+	[
+		print " - Inner Loop "
+		print y
+		print cr
+		y = y - 1.0 * 5 / 20 * 4.0
+	]
+	x = x + 1
+	print cr
+]
+
+print "Yay nested while loops!"
+print cr
+
+
+
+
+
+
+
+
+
+print "We processed a whole lot of empty lines....moving on"
+print cr
+
+if ( Seinfeld :eq: "Hello Newman" ^ Seinfeld :ne: "Kramer" ^ 3 :gt: 2 ^ 4.56789 :lt: 5 ^ ( 5 * 4 - 3 / 2 ) :ge: 18.5 ^ 2 + 9 :le: 11.01 ) then
+[
+	print "Evaluating conditionals seems to be working!"
+	print cr
+	if ( "black" :eq: "white" | "up" :ne: "down") then
+	[
+		print "The world makes sense.....for now"
+		print cr
+	]
+	if ( "The sky is purple" :eq: "Truth") then
+	[
+		print "Houston we have a problem"
+	]
+	else
+	[
+		print "The sky is thankfully blue"
+	]
+]
+
+print cr
+print "Nested if/else statements for the win"
+
+[
+	[
+		[
+			print cr
+			print "Brackets are a gas......"
+		]
+	]
+]
+
+/* You cant see me because I'm a comment.....MUWAHAHAHAHAHA */
+
+/*
+MUWHAHAHAHAHAHAHAH
+MUWAHAHAHAHAHAHAH
+MUWAHAHAHAHAHAHAH
+....chuckle....snort
+*/
+
+if ( ~ ( x :lt: 2 ) ) then
+[
+	heyJoe(x)
+]
+
+print cr
+print "What was x again? Oh yeah..."
+print x
+
+end
+
+subroutine heyJoe(subParam)
+decs
+[
+	string subroutineCoolness
+]
+begin
+
+subroutineCoolness = "but subroutines are cooler."
+
+	if ( subParam :eq: 4 ) then
+	[
+		subParam = 5
+		print subroutineCoolness
+	]
+	
+return

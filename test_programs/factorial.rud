@@ -1,0 +1,46 @@
+/*Validation of stop function OR Factorial Calculator (user determined)*/
+program
+decs 
+[
+	integer fact /* factorial result */
+	integer x /* intermediate factorial value */
+	integer n /* input factorial term */
+	string choice /*user decision for functionality*/
+]
+begin
+
+print "Type 'stop' to end the program. Any other input will run the factorial calculator."
+print cr
+
+input choice
+
+if ( choice :eq: "stop" ) then
+[
+	stop
+]
+
+print cr
+
+print "Enter the factorial term:"
+
+input n
+
+if ( n :eq: 0 ) then
+[
+	fact = 1
+]
+else
+[ 
+	x = 1
+	fact = 1
+
+	while ( x :lt: n )
+	[
+		x = x + 1
+		fact = fact * x
+	]
+]
+print n
+print "! = "
+print fact
+end

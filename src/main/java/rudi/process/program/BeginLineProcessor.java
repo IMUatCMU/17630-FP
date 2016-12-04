@@ -24,7 +24,7 @@ public class BeginLineProcessor implements LineProcessor {
 
     @Override
     public boolean canProcess(String line) {
-        return line.trim().toLowerCase().startsWith(RudiConstant.BEGIN_COMMAND);
+        return line.trim().toLowerCase().equals(RudiConstant.BEGIN_COMMAND);
     }
 
     @Override

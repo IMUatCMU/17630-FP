@@ -22,7 +22,7 @@ public class SubRoutineLineProcessor implements LineProcessor {
 
     @Override
     public boolean canProcess(String line) {
-        return RudiUtils.stripComments(line).trim().toLowerCase().startsWith(RudiConstant.SUBROUTINE_COMMAND);
+        return RudiUtils.stripComments(line).trim().toLowerCase().startsWith(RudiConstant.SUBROUTINE_COMMAND + RudiConstant.SPACE);
     }
 
     @Override

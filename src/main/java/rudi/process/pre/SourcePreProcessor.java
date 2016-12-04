@@ -118,7 +118,7 @@ public class SourcePreProcessor {
             } else {
                 throw new CannotProcessLineException(lineNumber, "Cannot embed main function in other routines.");
             }
-        } else if (line.toLowerCase().startsWith(RudiConstant.SUBROUTINE_COMMAND)) {
+        } else if (line.toLowerCase().startsWith(RudiConstant.SUBROUTINE_COMMAND + RudiConstant.SPACE)) {
             if (currentRoutineName.length() == 0) {
                 try {
                     currentRoutineName = line.substring(
