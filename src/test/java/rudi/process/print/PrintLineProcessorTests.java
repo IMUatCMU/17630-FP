@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import rudi.support.RudiContext;
 import rudi.support.RudiSource;
+import rudi.support.RudiSourceRegistry;
 import rudi.support.RudiStack;
 import rudi.support.variable.VarType;
 import rudi.support.variable.Variable;
@@ -22,6 +23,8 @@ public class PrintLineProcessorTests {
 
     @Before
     public void setup() {
+        RudiStack.getInstance().removeAllElements();
+        RudiSourceRegistry.getInstance().clear();
         myOut = new ByteArrayOutputStream();
         System.setOut(new PrintStream(myOut));
     }
@@ -32,6 +35,7 @@ public class PrintLineProcessorTests {
                 "print \"Hello World\""
         ));
         RudiContext context = RudiContext.defaultContext();
+        context.setExecutionMode(true);
         context.setSourceCode(source);
         RudiStack.getInstance().push(context);
 
@@ -46,6 +50,7 @@ public class PrintLineProcessorTests {
                 "print foo"
         ));
         RudiContext context = RudiContext.defaultContext();
+        context.setExecutionMode(true);
         context.setSourceCode(source);
         context.declare(new Variable(VarType.STRING, "foo"));
         context.modifier("foo").modify("bar");
@@ -62,6 +67,7 @@ public class PrintLineProcessorTests {
                 "print cr"
         ));
         RudiContext context = RudiContext.defaultContext();
+        context.setExecutionMode(true);
         context.setSourceCode(source);
         RudiStack.getInstance().push(context);
 

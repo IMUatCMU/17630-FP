@@ -1,6 +1,7 @@
 package rudi.process.pre;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -8,11 +9,18 @@ import rudi.error.CannotProcessLineException;
 import rudi.support.RudiConstant;
 import rudi.support.RudiSource;
 import rudi.support.RudiSourceRegistry;
+import rudi.support.RudiStack;
 
 import java.util.Arrays;
 
 @RunWith(JUnit4.class)
 public class SourcePreProcessorTest {
+
+    @Before
+    public void setup() {
+        RudiStack.getInstance().removeAllElements();
+        RudiSourceRegistry.getInstance().clear();
+    }
 
     @Test
     public void testParseMain() {

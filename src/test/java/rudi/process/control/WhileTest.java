@@ -10,6 +10,7 @@ import rudi.process.pre.SourcePreProcessor;
 import rudi.support.RudiConstant;
 import rudi.support.RudiSource;
 import rudi.support.RudiSourceRegistry;
+import rudi.support.RudiStack;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -22,6 +23,8 @@ public class WhileTest {
 
     @Before
     public void setup() {
+        RudiStack.getInstance().removeAllElements();
+        RudiSourceRegistry.getInstance().clear();
         myOut = new ByteArrayOutputStream();
         System.setOut(new PrintStream(myOut));
     }

@@ -30,6 +30,8 @@ public class ProgramTest {
 
     @Before
     public void setup() {
+        RudiStack.getInstance().removeAllElements();
+        RudiSourceRegistry.getInstance().clear();
         myOut = new ByteArrayOutputStream();
         System.setOut(new PrintStream(myOut));
     }
