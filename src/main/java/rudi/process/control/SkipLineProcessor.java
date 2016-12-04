@@ -1,9 +1,15 @@
 package rudi.process.control;
 
+import rudi.error.CannotProcessLineException;
+import rudi.error.FailedToEvaluateExpressionException;
+import rudi.error.UnrecognizedTokenException;
 import rudi.process.DefaultLineProcessor;
 import rudi.process.LineProcessor;
 import rudi.support.*;
+import rudi.support.expression.eval.ExpressionResolver;
+import rudi.support.expression.token.Tokenizer;
 import rudi.support.literal.Constant;
+import rudi.support.variable.VarType;
 
 import java.util.ArrayList;
 
@@ -70,7 +76,9 @@ public class SkipLineProcessor implements LineProcessor {
         if (null == RudiStack.currentContext().getControlBranch()) {
             RudiContext ctx = RudiStack.currentContext().contextInheritingVariablesAndParameters();
             ctx.setExecutionMode(true);
-            if ((Boolean) RudiStack.currentContext().getControlCondition().getValue()) {
+
+            Constant condition = evaluateCondition(lineNumber);
+            if ((Boolean) condition.getValue()) {
                 ctx.setSourceCode(RudiStack.currentContext().getTrueSource());
             } else {
                 ctx.setSourceCode(RudiStack.currentContext().getFalseSource());
@@ -88,7 +96,8 @@ public class SkipLineProcessor implements LineProcessor {
             RudiStack.getInstance().pop();
 
             // reset
-            RudiStack.currentContext().setControlCondition(null);
+            RudiStack.currentContext().setControlType(null);
+            RudiStack.currentContext().setControlExpression(null);
             RudiStack.currentContext().setControlBranch(null);
             RudiStack.currentContext().setSkipMode(false);
             RudiStack.currentContext().setBranchStartLineNumber(0);
@@ -98,6 +107,25 @@ public class SkipLineProcessor implements LineProcessor {
 
             // execute current line
             DefaultLineProcessor.getInstance().doProcess(lineNumber, line);
+        }
+    }
+
+    private Constant evaluateCondition(int lineNumber) {
+        try {
+            String expression = RudiStack.currentContext().getControlExpression();
+            Constant condition = ExpressionResolver.resolve(new Tokenizer(expression).allTokens());
+            if (VarType.BOOLEAN != condition.getType()) {
+                throw new CannotProcessLineException(
+                        RudiUtils.resolveGlobalLineNumber(lineNumber),
+                        "Non-boolean condition in if statement"
+                );
+            }
+            return condition;
+        } catch (FailedToEvaluateExpressionException | UnrecognizedTokenException e) {
+            throw new CannotProcessLineException(
+                    RudiUtils.resolveGlobalLineNumber(lineNumber),
+                    e.getMessage()
+            );
         }
     }
 

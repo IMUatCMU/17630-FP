@@ -47,22 +47,8 @@ public class IfThenElseLineProcessor implements LineProcessor {
         // Extract and evaluate condition expression
         line = RudiUtils.stripComments(line).trim();
         String expression = line.substring(IF.length() + 1, line.length() - THEN.length()).trim();
-        try {
-            Constant condition = ExpressionResolver.resolve(new Tokenizer(expression).allTokens());
-            if (VarType.BOOLEAN != condition.getType()) {
-                throw new CannotProcessLineException(
-                        RudiUtils.resolveGlobalLineNumber(lineNumber),
-                        "Non-boolean condition in if statement"
-                );
-            }
-            RudiStack.currentContext().setControlCondition(condition);
-        } catch (FailedToEvaluateExpressionException | UnrecognizedTokenException e) {
-            throw new CannotProcessLineException(
-                    RudiUtils.resolveGlobalLineNumber(lineNumber),
-                    e.getMessage()
-            );
-        }
-
+        RudiStack.currentContext().setControlExpression(expression);
+        RudiStack.currentContext().setControlType(RudiContext.ControlType.IF);
         RudiStack.currentContext().setControlBranch(RudiContext.ControlBranch.TRUE);
         RudiStack.currentContext().setSkipMode(true);
     }

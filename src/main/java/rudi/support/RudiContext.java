@@ -225,7 +225,8 @@ public class RudiContext implements VariableRegistrar {
     // Control structure
     // =================================================================================================================
 
-    private Constant controlCondition = null;
+    private String controlExpression = null;
+    private ControlType controlType = null;
     private RudiSource trueSource = null;
     private RudiSource falseSource = new RudiSource(new ArrayList<>());
     private ControlBranch controlBranch = null;         // indicates the branch we are currently in
@@ -237,12 +238,8 @@ public class RudiContext implements VariableRegistrar {
         TRUE, FALSE
     }
 
-    public Constant getControlCondition() {
-        return controlCondition;
-    }
-
-    public void setControlCondition(Constant controlCondition) {
-        this.controlCondition = controlCondition;
+    public enum ControlType {
+        IF, WHILE
     }
 
     public ControlBranch getControlBranch() {
@@ -291,5 +288,21 @@ public class RudiContext implements VariableRegistrar {
 
     public void setFalseSource(RudiSource falseSource) {
         this.falseSource = falseSource;
+    }
+
+    public String getControlExpression() {
+        return controlExpression;
+    }
+
+    public void setControlExpression(String controlExpression) {
+        this.controlExpression = controlExpression;
+    }
+
+    public ControlType getControlType() {
+        return controlType;
+    }
+
+    public void setControlType(ControlType controlType) {
+        this.controlType = controlType;
     }
 }
