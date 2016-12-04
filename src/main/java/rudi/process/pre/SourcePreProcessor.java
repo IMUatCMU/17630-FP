@@ -141,6 +141,9 @@ public class SourcePreProcessor {
                 throw new CannotProcessLineException(lineNumber, "Cannot end subroutine with 'end'.");
             } else {
                 currentRoutineEndLineNumber = lineNumber;
+                if (RudiSourceRegistry.getInstance().containsKey(RudiConstant.MAIN_PROGRAM_KEY))
+                    throw new CannotProcessLineException(lineNumber, "Main program cannot be declared twice");
+
                 RudiSourceRegistry.getInstance().put(
                         currentRoutineName,
                         new RudiSource(this.source, currentRoutineStartLineNumber, currentRoutineEndLineNumber));
