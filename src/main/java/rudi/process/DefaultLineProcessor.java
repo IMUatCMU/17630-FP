@@ -2,6 +2,7 @@ package rudi.process;
 
 import rudi.process.control.IfThenElseLineProcessor;
 import rudi.process.control.SkipLineProcessor;
+import rudi.process.control.WhileLineProcessor;
 import rudi.process.decs.DecsLineProcessor;
 import rudi.process.decs.VariableDeclarationProcessor;
 import rudi.process.func.CallSubRoutineLineProcessor;
@@ -36,6 +37,7 @@ public class DefaultLineProcessor extends DelegatingLineProcessor {
                 EndingBracketLineProcessor.getInstance(),
                 SkipLineProcessor.getInstance(),
                 IfThenElseLineProcessor.getInstance(),
+                WhileLineProcessor.getInstance(),
                 VariableDeclarationProcessor.getInstance(),
                 BeginLineProcessor.getInstance(),
                 EndLineProcessor.getInstance(),

@@ -3,6 +3,7 @@ package rudi.process.control;
 import rudi.error.CannotProcessLineException;
 import rudi.process.LineProcessor;
 import rudi.support.RudiConstant;
+import rudi.support.RudiContext;
 import rudi.support.RudiStack;
 import rudi.support.RudiUtils;
 
@@ -24,7 +25,7 @@ public class WhileLineProcessor implements LineProcessor {
 
     @Override
     public boolean canProcess(String line) {
-        return RudiUtils.stripComments(line).trim().toLowerCase().startsWith(RudiConstant.WHILE);
+        return RudiUtils.stripComments(line).trim().toLowerCase().startsWith(RudiConstant.WHILE + RudiConstant.SPACE);
     }
 
     @Override
@@ -35,6 +36,12 @@ public class WhileLineProcessor implements LineProcessor {
                     "Illegal placement for the while statement."
             );
 
-
+        // Extract condition expression
+        line = RudiUtils.stripComments(line).trim();
+        String expression = line.substring(RudiConstant.WHILE.length() + 1).trim();
+        RudiStack.currentContext().setControlExpression(expression);
+        RudiStack.currentContext().setControlType(RudiContext.ControlType.WHILE);
+        RudiStack.currentContext().setControlBranch(RudiContext.ControlBranch.TRUE);
+        RudiStack.currentContext().setSkipMode(true);
     }
 }

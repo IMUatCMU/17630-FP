@@ -77,23 +77,34 @@ public class SkipLineProcessor implements LineProcessor {
             RudiContext ctx = RudiStack.currentContext().contextInheritingVariablesAndParameters();
             ctx.setExecutionMode(true);
 
-            Constant condition = evaluateCondition(lineNumber);
-            if ((Boolean) condition.getValue()) {
-                ctx.setSourceCode(RudiStack.currentContext().getTrueSource());
+            RudiContext.ControlType controlType = RudiStack.currentContext().getControlType();
+            if (RudiContext.ControlType.IF == controlType) {
+                Constant condition = evaluateCondition(lineNumber);
+                if ((Boolean) condition.getValue()) {
+                    ctx.setSourceCode(RudiStack.currentContext().getTrueSource());
+                } else {
+                    ctx.setSourceCode(RudiStack.currentContext().getFalseSource());
+                }
+
+                RudiStack.getInstance().push(ctx);
+                for (int i = 1; i <= ctx.getSourceCode().totalLines(); i++) {
+                    DefaultLineProcessor.getInstance().doProcess(i, ctx.getSourceCode().getLine(i));
+                }
+                RudiStack.getInstance().pop();
+            } else if (RudiContext.ControlType.WHILE == controlType) {
+                Constant condition = evaluateCondition(lineNumber);
+                while ((Boolean) condition.getValue()) {
+                    ctx.setSourceCode(RudiStack.currentContext().getTrueSource());
+                    RudiStack.getInstance().push(ctx);
+                    for (int i = 1; i <= ctx.getSourceCode().totalLines(); i++) {
+                        DefaultLineProcessor.getInstance().doProcess(i, ctx.getSourceCode().getLine(i));
+                    }
+                    RudiStack.getInstance().pop();
+                    condition = evaluateCondition(lineNumber);
+                }
             } else {
-                ctx.setSourceCode(RudiStack.currentContext().getFalseSource());
+                throw new IllegalStateException("control type not set");
             }
-
-            // push
-            RudiStack.getInstance().push(ctx);
-
-            // execute
-            for (int i = 1; i <= ctx.getSourceCode().totalLines(); i++) {
-                DefaultLineProcessor.getInstance().doProcess(i, ctx.getSourceCode().getLine(i));
-            }
-
-            // pop
-            RudiStack.getInstance().pop();
 
             // reset
             RudiStack.currentContext().setControlType(null);
