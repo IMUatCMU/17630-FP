@@ -132,13 +132,12 @@ public class SourcePreProcessor {
                 throw new CannotProcessLineException(lineNumber, "Cannot embed subroutine declaration in other routines.");
             }
         } else if (RudiConstant.END_COMMAND.equals(line.toLowerCase())) {
-            if (bracketDepth != 0)
-                throw new CannotProcessLineException(lineNumber, "Mismatched brackets");
-
             if (currentRoutineName.length() == 0) {
                 throw new CannotProcessLineException(lineNumber, "Cannot end main routine that was not started");
             } else if (!currentRoutineName.equals(RudiConstant.MAIN_PROGRAM_KEY)) {
                 throw new CannotProcessLineException(lineNumber, "Cannot end subroutine with 'end'.");
+            } else if (bracketDepth != 0) {
+                throw new CannotProcessLineException(lineNumber, "Mismatched brackets");
             } else {
                 currentRoutineEndLineNumber = lineNumber;
                 if (RudiSourceRegistry.getInstance().containsKey(RudiConstant.MAIN_PROGRAM_KEY))
@@ -152,15 +151,17 @@ public class SourcePreProcessor {
                 currentRoutineEndLineNumber = 0;
             }
         } else if (RudiConstant.RETURN_COMMAND.equals(line.toLowerCase())) {
-            if (bracketDepth != 0)
-                throw new CannotProcessLineException(lineNumber, "Mismatched brackets");
-
             if (currentRoutineName.length() == 0) {
                 throw new CannotProcessLineException(lineNumber, "Cannot end subroutine that was not started");
             } else if (currentRoutineName.equals(RudiConstant.MAIN_PROGRAM_KEY)) {
                 throw new CannotProcessLineException(lineNumber, "Cannot end main routine with 'return'.");
+            } else if (bracketDepth != 0) {
+                throw new CannotProcessLineException(lineNumber, "Mismatched brackets");
             } else {
                 currentRoutineEndLineNumber = lineNumber;
+                if (RudiSourceRegistry.getInstance().containsKey(currentRoutineName))
+                    throw new CannotProcessLineException(lineNumber, "Subroutine <"+ currentRoutineName + "> cannot be declared twice");
+
                 RudiSourceRegistry.getInstance().put(
                         currentRoutineName,
                         new RudiSource(this.source, currentRoutineStartLineNumber, currentRoutineEndLineNumber));
