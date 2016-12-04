@@ -50,8 +50,6 @@ public class Tokenizer {
         addBufferToTokenIfNonEmpty();
 
         return this.tokens;
-//        return Arrays.stream(this.expression.split(RudiConstant.SPACE))
-//                .filter(s -> s.length() > 0).collect(Collectors.toList());
     }
 
     private void addBufferToTokenIfNonEmpty() {
