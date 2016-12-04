@@ -24,7 +24,7 @@ public class StopLineProcessor implements LineProcessor {
 
     @Override
     public boolean canProcess(String line) {
-        return line.trim().toLowerCase().startsWith(RudiConstant.STOP_COMMAND);
+        return line.trim().toLowerCase().equals(RudiConstant.STOP_COMMAND);
     }
 
     @Override
