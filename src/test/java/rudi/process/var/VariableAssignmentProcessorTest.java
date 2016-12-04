@@ -35,6 +35,17 @@ public class VariableAssignmentProcessorTest {
         Assert.assertEquals(29, RudiStack.currentContext().accessor("y").access().getValue());
     }
 
+    @Test
+    public void testAssigningStringLiteral() {
+        RudiContext ctx = RudiContext.defaultContext();
+        ctx.setExecutionMode(true);
+        ctx.declare(new Variable(VarType.STRING, "foo"));
+        RudiStack.getInstance().push(ctx);
+
+        VariableAssignmentProcessor.getInstance().doProcess(1, "foo = \"hello world\"");
+        Assert.assertEquals("hello world", RudiStack.currentContext().accessor("foo").access().getValue());
+    }
+
     private void testBody(String code, Integer expectedResult) {
         RudiContext ctx = RudiContext.defaultContext();
         ctx.setExecutionMode(true);

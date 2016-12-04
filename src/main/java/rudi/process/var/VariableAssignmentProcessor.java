@@ -7,6 +7,7 @@ import rudi.support.RudiConstant;
 import rudi.support.RudiStack;
 import rudi.support.RudiUtils;
 import rudi.support.expression.eval.ExpressionResolver;
+import rudi.support.expression.token.Tokenizer;
 import rudi.support.literal.Constant;
 import rudi.support.variable.VariableModifier;
 
@@ -59,7 +60,8 @@ public class VariableAssignmentProcessor implements LineProcessor {
 
         try {
             VariableModifier modifier = RudiStack.currentContext().modifier(variableName);
-            Constant newValue = ExpressionResolver.resolve(Arrays.asList(expression.split(RudiConstant.SPACE)));
+            //Constant newValue = ExpressionResolver.resolve(Arrays.asList(expression.split(RudiConstant.SPACE)));
+            Constant newValue = ExpressionResolver.resolve(new Tokenizer(expression).allTokens());
             modifier.modify(newValue.getValue());
         } catch (Exception ex) {
             throw new CannotProcessLineException(

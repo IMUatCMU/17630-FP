@@ -4,6 +4,7 @@ import rudi.error.FailedToEvaluateExpressionException;
 import rudi.support.RudiConstant;
 import rudi.support.expression.token.*;
 import rudi.support.literal.Constant;
+import rudi.support.variable.Variable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -148,7 +149,13 @@ public class ExpressionResolver {
         } else if (token.isParenthesis()) {
             throw new FailedToEvaluateExpressionException("internal error: parenthesis pushed onto output stack");
         } else {
-            this.outputStack.push(token);
+            if (token instanceof VariableToken) {
+                Variable var = ((VariableToken) token).getAccessor().access();
+                Constant valueTok = new Constant(var.getType(), var.getValue());
+                this.outputStack.push(new ConstantToken(valueTok.getValue().toString(), valueTok));
+            } else {
+                this.outputStack.push(token);
+            }
         }
     }
 

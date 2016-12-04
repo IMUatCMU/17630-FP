@@ -1,11 +1,15 @@
 package rudi.process.print;
 
 import rudi.error.CannotProcessLineException;
+import rudi.error.FailedToEvaluateExpressionException;
+import rudi.error.UnrecognizedTokenException;
 import rudi.error.VariableNotInRegistrarException;
 import rudi.process.LineProcessor;
 import rudi.support.RudiConstant;
 import rudi.support.RudiStack;
 import rudi.support.RudiUtils;
+import rudi.support.expression.eval.ExpressionResolver;
+import rudi.support.expression.token.Tokenizer;
 import rudi.support.literal.Constant;
 import rudi.support.literal.ConstantFactory;
 import rudi.support.variable.VariableAccessor;
@@ -41,20 +45,18 @@ public class PrintLineProcessor implements LineProcessor {
         String content = line.substring(RudiConstant.PRINT_COMMAND.length()).trim();
         if (RudiConstant.CR.equals(content.toLowerCase())) {
             System.out.print("\n");
-        } else if (content.startsWith(RudiConstant.DOUBLE_QUOTE) && content.endsWith(RudiConstant.DOUBLE_QUOTE)) {
-            Constant c = ConstantFactory.create(content);
-            System.out.print(c.getValue());
         } else {
             try {
-                VariableAccessor accessor = RudiStack.currentContext().accessor(content);
-                if (null != accessor.access().getValue())
-                    System.out.print(accessor.access().getValue().toString());
+                Constant c = ExpressionResolver.resolve(new Tokenizer(content).allTokens());
+                if (null != c.getValue())
+                    System.out.print(c.getValue().toString());
                 else
                     System.out.print("<null>");
-            } catch (VariableNotInRegistrarException e) {
+            } catch (FailedToEvaluateExpressionException | UnrecognizedTokenException e) {
                 throw new CannotProcessLineException(
                         RudiUtils.resolveGlobalLineNumber(lineNumber),
-                        "Invalid syntax for 'print' command");
+                        "Invalid expression for print"
+                );
             }
         }
     }
