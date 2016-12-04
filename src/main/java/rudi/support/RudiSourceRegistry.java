@@ -9,6 +9,8 @@ public class RudiSourceRegistry extends HashMap<String, RudiSource> {
 
     private static RudiSourceRegistry instance;
 
+    private RudiSource rawSource;
+
     private RudiSourceRegistry() {
     }
 
@@ -16,5 +18,13 @@ public class RudiSourceRegistry extends HashMap<String, RudiSource> {
         if (null == instance)
             instance = new RudiSourceRegistry();
         return instance;
+    }
+
+    public RudiSource getRawSource() {
+        return rawSource;
+    }
+
+    public void setRawSource(RudiSource rawSource) {
+        this.rawSource = rawSource;
     }
 }

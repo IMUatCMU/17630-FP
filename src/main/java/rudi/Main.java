@@ -29,6 +29,7 @@ public class Main {
 
         try {
             RudiSource source = new RudiSource(Files.lines(Paths.get(args[0])).collect(Collectors.toList()));
+            RudiSourceRegistry.getInstance().setRawSource(source);
             SourcePreProcessor.process(source);
             RudiSource main = RudiSourceRegistry.getInstance().get(RudiConstant.MAIN_PROGRAM_KEY);
             for (int i = 1; i <= main.totalLines(); i++) {
@@ -37,9 +38,15 @@ public class Main {
         } catch (IOException e0) {
             System.err.println("Failed to read RUDI source file provided by first argument.");
             System.exit(-1);
-        } catch (CannotProcessLineException | CannotReadSourceException e1) {
-            System.err.println(e1.getMessage());
+        } catch (CannotProcessLineException e1) {
+            String code = RudiSourceRegistry.getInstance().getRawSource().getLine(e1.getLineNumber()).trim();
+            System.err.println(e1.getMessage() + " (line: " + e1.getLineNumber() + " code: " + code + ")");
             System.exit(-1);
+        } catch (CannotReadSourceException e2) {
+            System.err.println(e2.getMessage());
+            System.exit(-1);
+        } finally {
+            System.exit(0);
         }
     }
 }

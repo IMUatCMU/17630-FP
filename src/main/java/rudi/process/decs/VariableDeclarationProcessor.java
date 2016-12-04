@@ -29,9 +29,9 @@ public class VariableDeclarationProcessor implements LineProcessor {
 
     @Override
     public boolean canProcess(String line) {
-        return (line.trim().startsWith(TYPE_INTEGER + SPACE)) ||
-                (line.trim().startsWith(TYPE_FLOAT + SPACE)) ||
-                (line.trim().startsWith(TYPE_STRING + SPACE));
+        return (line.trim().toLowerCase().startsWith(TYPE_INTEGER + SPACE)) ||
+                (line.trim().toLowerCase().startsWith(TYPE_FLOAT + SPACE)) ||
+                (line.trim().toLowerCase().startsWith(TYPE_STRING + SPACE));
     }
 
     @Override
@@ -46,11 +46,11 @@ public class VariableDeclarationProcessor implements LineProcessor {
         line = RudiUtils.stripComments(line).trim();
 
         VarType type = null;
-        if (line.startsWith(TYPE_INTEGER + SPACE)) {
+        if (line.toLowerCase().startsWith(TYPE_INTEGER + SPACE)) {
             type = VarType.INTEGER;
-        } else if (line.startsWith(TYPE_FLOAT + SPACE)) {
+        } else if (line.toLowerCase().startsWith(TYPE_FLOAT + SPACE)) {
             type = VarType.FLOAT;
-        } else if (line.startsWith(TYPE_STRING + SPACE)) {
+        } else if (line.toLowerCase().startsWith(TYPE_STRING + SPACE)) {
             type = VarType.STRING;
         } else {
             throw new CannotProcessLineException(
@@ -60,11 +60,11 @@ public class VariableDeclarationProcessor implements LineProcessor {
         }
 
         String variableName = null;
-        if (line.startsWith(TYPE_INTEGER + SPACE)) {
+        if (line.toLowerCase().startsWith(TYPE_INTEGER + SPACE)) {
             variableName = line.substring((TYPE_INTEGER + SPACE).length()).trim();
-        } else if (line.startsWith(TYPE_FLOAT + SPACE)) {
+        } else if (line.toLowerCase().startsWith(TYPE_FLOAT + SPACE)) {
             variableName = line.substring((TYPE_FLOAT + SPACE).length()).trim();
-        } else if (line.startsWith(TYPE_STRING + SPACE)) {
+        } else if (line.toLowerCase().startsWith(TYPE_STRING + SPACE)) {
             variableName = line.substring((TYPE_STRING + SPACE).length()).trim();
         }
 

@@ -9,12 +9,12 @@ public class CannotProcessLineException extends RuntimeException {
     private final int lineNumber;
 
     public CannotProcessLineException(int lineNumber) {
-        super("Failed to process line " + lineNumber);
+        super("Processing failed");
         this.lineNumber = lineNumber;
     }
 
     public CannotProcessLineException(int lineNumber, String message) {
-        super("Failed to process line " + lineNumber + " because: " + message);
+        super(message);
         this.lineNumber = lineNumber;
     }
 
