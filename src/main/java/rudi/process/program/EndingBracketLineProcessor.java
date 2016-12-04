@@ -40,5 +40,10 @@ public class EndingBracketLineProcessor implements LineProcessor {
 
         if (RudiStack.currentContext().isDeclarationMode())
             RudiStack.currentContext().setDeclarationMode(false);
+
+        if (RudiStack.currentContext().getBracketDepth() == 0 &&
+                RudiStack.currentContext().getBranchStartLineNumber() != 0) {
+            RudiStack.currentContext().setBranchEndLineNumber(lineNumber - 1);
+        }
     }
 }

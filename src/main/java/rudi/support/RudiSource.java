@@ -48,7 +48,7 @@ public class RudiSource {
      */
     public RudiSource(RudiSource parentSource, int startLine, int endLine) {
         this.source = new ArrayList<>();
-        this.globalLineOffset = startLine - 1;
+        this.globalLineOffset = (startLine - 1) + parentSource.getGlobalLineOffset();
         for (int i = startLine; i <= endLine; i++) {
            this.source.add(parentSource.getLine(i));
         }

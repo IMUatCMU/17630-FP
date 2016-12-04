@@ -1,5 +1,7 @@
 package rudi.process;
 
+import rudi.process.control.IfThenElseLineProcessor;
+import rudi.process.control.SkipLineProcessor;
 import rudi.process.decs.DecsLineProcessor;
 import rudi.process.decs.VariableDeclarationProcessor;
 import rudi.process.func.CallSubRoutineLineProcessor;
@@ -26,11 +28,14 @@ public class DefaultLineProcessor extends DelegatingLineProcessor {
 
     private DefaultLineProcessor() {
         super(Arrays.asList(
+                EmptyLineProcessor.getInstance(),
                 ProgramLineProcessor.getInstance(),
                 SubRoutineLineProcessor.getInstance(),
                 DecsLineProcessor.getInstace(),
                 StartingBracketLineProcessor.getInstance(),
                 EndingBracketLineProcessor.getInstance(),
+                SkipLineProcessor.getInstance(),
+                IfThenElseLineProcessor.getInstance(),
                 VariableDeclarationProcessor.getInstance(),
                 BeginLineProcessor.getInstance(),
                 EndLineProcessor.getInstance(),

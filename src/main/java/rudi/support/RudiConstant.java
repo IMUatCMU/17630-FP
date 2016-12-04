@@ -46,6 +46,10 @@ public class RudiConstant {
     public static final String END_BRAC = "]";
     public static final String MAIN_PROGRAM_KEY = "main";
     public static final String CONTINUATION = "&";
+    public static final String IF = "if";
+    public static final String THEN = "then";
+    public static final String ELSE = "else";
+    public static final String WHILE = "while";
 
     public static final List<String> RESERVED_WORDS = Arrays.asList(
             START_COMMENT, END_COMMENT,
@@ -63,6 +67,7 @@ public class RudiConstant {
             START_BRAC, END_BRAC,
             EQUAL_SIGN,
             CONTINUATION,
-            CR
+            CR,
+            IF, THEN, ELSE, WHILE
     );
 }

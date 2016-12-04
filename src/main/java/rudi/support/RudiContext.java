@@ -2,8 +2,11 @@ package rudi.support;
 
 import rudi.error.DuplicateVariableDeclarationException;
 import rudi.error.VariableNotInRegistrarException;
+import rudi.support.literal.Constant;
 import rudi.support.variable.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +27,20 @@ public class RudiContext implements VariableRegistrar {
      */
     public static RudiContext defaultContext() {
         return new RudiContext();
+    }
+
+    public RudiContext contextInheritingVariablesAndParameters() {
+        RudiContext newCtx = defaultContext();
+//        this.variableRegistrar.forEach((s, variable) -> {
+//            newCtx.paramRegistrar.put(s, new ModifyAccessPair(
+//                    this.modifier(s),
+//                    this.accessor(s)
+//            ));
+//        });
+        newCtx.variableRegistrar.putAll(this.variableRegistrar);
+        newCtx.paramRegistrar.putAll(this.paramRegistrar);
+        //newCtx.paramRegistrar.putAll(this.paramRegistrar);
+        return newCtx;
     }
 
     // =================================================================================================================
@@ -202,5 +219,77 @@ public class RudiContext implements VariableRegistrar {
 
     public void setIfThenElseCount(int ifThenElseCount) {
         this.ifThenElseCount = ifThenElseCount;
+    }
+
+    // =================================================================================================================
+    // Control structure
+    // =================================================================================================================
+
+    private Constant controlCondition = null;
+    private RudiSource trueSource = null;
+    private RudiSource falseSource = new RudiSource(new ArrayList<>());
+    private ControlBranch controlBranch = null;         // indicates the branch we are currently in
+    private boolean skipMode = false;                   // entering criteria for SkipLineProcessor
+    private int branchStartLineNumber = 0;
+    private int branchEndLineNumber = 0;
+
+    public enum ControlBranch {
+        TRUE, FALSE
+    }
+
+    public Constant getControlCondition() {
+        return controlCondition;
+    }
+
+    public void setControlCondition(Constant controlCondition) {
+        this.controlCondition = controlCondition;
+    }
+
+    public ControlBranch getControlBranch() {
+        return controlBranch;
+    }
+
+    public void setControlBranch(ControlBranch controlBranch) {
+        this.controlBranch = controlBranch;
+    }
+
+    public boolean isSkipMode() {
+        return skipMode;
+    }
+
+    public void setSkipMode(boolean skipMode) {
+        this.skipMode = skipMode;
+    }
+
+    public int getBranchStartLineNumber() {
+        return branchStartLineNumber;
+    }
+
+    public void setBranchStartLineNumber(int branchStartLineNumber) {
+        this.branchStartLineNumber = branchStartLineNumber;
+    }
+
+    public int getBranchEndLineNumber() {
+        return branchEndLineNumber;
+    }
+
+    public void setBranchEndLineNumber(int branchEndLineNumber) {
+        this.branchEndLineNumber = branchEndLineNumber;
+    }
+
+    public RudiSource getTrueSource() {
+        return trueSource;
+    }
+
+    public void setTrueSource(RudiSource trueSource) {
+        this.trueSource = trueSource;
+    }
+
+    public RudiSource getFalseSource() {
+        return falseSource;
+    }
+
+    public void setFalseSource(RudiSource falseSource) {
+        this.falseSource = falseSource;
     }
 }
