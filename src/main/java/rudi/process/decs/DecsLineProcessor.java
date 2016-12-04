@@ -39,6 +39,11 @@ public class DecsLineProcessor implements LineProcessor {
                     "Does not recognized declaration block syntax: " + line);
         }
 
+        if (RudiStack.currentContext().isDeclarationConcluded())
+            throw new CannotProcessLineException(
+                    RudiUtils.resolveGlobalLineNumber(lineNumber),
+                    "Cannot have two or more declaration blocks");
+
         RudiStack.getInstance().peek().setDeclarationMode(true);
     }
 }

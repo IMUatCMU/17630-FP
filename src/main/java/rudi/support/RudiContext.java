@@ -181,12 +181,26 @@ public class RudiContext implements VariableRegistrar {
      */
     private boolean declarationMode = false;
 
+    /**
+     * Set to true when exits declaration mode and
+     * should prevent re-enter
+     */
+    private boolean declarationConcluded = false;
+
     public boolean isDeclarationMode() {
         return declarationMode;
     }
 
     public void setDeclarationMode(boolean declarationMode) {
         this.declarationMode = declarationMode;
+    }
+
+    public boolean isDeclarationConcluded() {
+        return declarationConcluded;
+    }
+
+    public void setDeclarationConcluded(boolean declarationConcluded) {
+        this.declarationConcluded = declarationConcluded;
     }
 
     // =================================================================================================================
