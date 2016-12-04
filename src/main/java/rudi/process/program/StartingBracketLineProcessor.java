@@ -36,6 +36,13 @@ public class StartingBracketLineProcessor implements LineProcessor {
                     "Start bracket should be its own line."
             );
 
+        if (!RudiStack.currentContext().isDeclarationMode() && !RudiStack.currentContext().isExecutionMode()) {
+            throw new CannotProcessLineException(
+                    RudiUtils.resolveGlobalLineNumber(lineNumber),
+                    "Illegal placement of start bracket."
+            );
+        }
+
         // increase count
         RudiStack.currentContext().increaseBracketDepth();
 

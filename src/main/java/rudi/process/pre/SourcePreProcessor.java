@@ -21,6 +21,7 @@ public class SourcePreProcessor {
     private String currentRoutineName = "";
     private int currentRoutineStartLineNumber = 0;
     private int currentRoutineEndLineNumber = 0;
+    private int bracketDepth = 0;
 
     public static RudiSource process(RudiSource source) {
         SourcePreProcessor p = new SourcePreProcessor(source);
@@ -79,6 +80,11 @@ public class SourcePreProcessor {
             if (line.startsWith(RudiConstant.END_BRAC) && !line.equals(RudiConstant.END_BRAC)) {
                 throw new CannotProcessLineException(lineNumber, "Start and end bracket should be on its own line");
             }
+
+            if (line.equals(RudiConstant.START_BRAC))
+                bracketDepth++;
+            else if (line.equals(RudiConstant.END_BRAC))
+                bracketDepth--;
         }
 
         // deal with continuation
@@ -126,6 +132,9 @@ public class SourcePreProcessor {
                 throw new CannotProcessLineException(lineNumber, "Cannot embed subroutine declaration in other routines.");
             }
         } else if (RudiConstant.END_COMMAND.equals(line.toLowerCase())) {
+            if (bracketDepth != 0)
+                throw new CannotProcessLineException(lineNumber, "Mismatched brackets");
+
             if (currentRoutineName.length() == 0) {
                 throw new CannotProcessLineException(lineNumber, "Cannot end main routine that was not started");
             } else if (!currentRoutineName.equals(RudiConstant.MAIN_PROGRAM_KEY)) {
@@ -140,6 +149,9 @@ public class SourcePreProcessor {
                 currentRoutineEndLineNumber = 0;
             }
         } else if (RudiConstant.RETURN_COMMAND.equals(line.toLowerCase())) {
+            if (bracketDepth != 0)
+                throw new CannotProcessLineException(lineNumber, "Mismatched brackets");
+
             if (currentRoutineName.length() == 0) {
                 throw new CannotProcessLineException(lineNumber, "Cannot end subroutine that was not started");
             } else if (currentRoutineName.equals(RudiConstant.MAIN_PROGRAM_KEY)) {

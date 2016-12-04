@@ -36,6 +36,13 @@ public class EndingBracketLineProcessor implements LineProcessor {
                     "End bracket should be its own line."
             );
 
+        if (!RudiStack.currentContext().isDeclarationMode() && !RudiStack.currentContext().isExecutionMode()) {
+            throw new CannotProcessLineException(
+                    RudiUtils.resolveGlobalLineNumber(lineNumber),
+                    "Illegal placement of end bracket."
+            );
+        }
+
         RudiStack.currentContext().decreaseBracketDepth();
 
         if (RudiStack.currentContext().isDeclarationMode())

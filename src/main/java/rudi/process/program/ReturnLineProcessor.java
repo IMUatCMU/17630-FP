@@ -34,7 +34,7 @@ public class ReturnLineProcessor implements LineProcessor {
                     RudiUtils.resolveGlobalLineNumber(lineNumber),
                     "Illegal placement of return keyword"
             );
-
+        
         RudiStack.currentContext().setExecutionMode(false);
         RudiStack.getInstance().pop();
 

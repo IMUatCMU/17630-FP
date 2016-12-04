@@ -1,6 +1,7 @@
 package rudi.process;
 
 import rudi.error.CannotProcessLineException;
+import rudi.support.RudiStack;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +35,7 @@ public class DelegatingLineProcessor implements LineProcessor {
         if (lpCandidate.isPresent()) {
             lpCandidate.get().doProcess(lineNumber, line);
         } else {
-            throw new CannotProcessLineException(lineNumber);
+            throw new CannotProcessLineException(RudiStack.currentContext().getSourceCode().getGlobalLineOffset() + lineNumber);
         }
     }
 
