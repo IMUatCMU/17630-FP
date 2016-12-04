@@ -39,6 +39,7 @@ public class WhileLineProcessor implements LineProcessor {
         // Extract condition expression
         line = RudiUtils.stripComments(line).trim();
         String expression = line.substring(RudiConstant.WHILE.length() + 1).trim();
+        RudiStack.currentContext().setControlExpressionBracketDepth(RudiStack.currentContext().getBracketDepth());
         RudiStack.currentContext().setControlExpressionLineNumber(lineNumber);
         RudiStack.currentContext().setControlExpression(expression);
         RudiStack.currentContext().setControlType(RudiContext.ControlType.WHILE);

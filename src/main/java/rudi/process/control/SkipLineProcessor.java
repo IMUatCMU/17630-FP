@@ -40,10 +40,10 @@ public class SkipLineProcessor implements LineProcessor {
     public void doProcess(int lineNumber, String line) {
         // we are in true branch
         if (ControlBranch.TRUE == RudiStack.currentContext().getControlBranch()) {
-            if (bracketLevel() == 1 &&
+            if (bracketLevel() >= RudiStack.currentContext().getControlExpressionBracketDepth() + 1 &&
                     RudiStack.currentContext().getBranchStartLineNumber() == 0) {
                 RudiStack.currentContext().setBranchStartLineNumber(lineNumber);
-            } else if (bracketLevel() == 0) {
+            } else if (bracketLevel() <= RudiStack.currentContext().getControlExpressionBracketDepth()) {
                 RudiStack.currentContext().setTrueSource(new RudiSource(
                         RudiStack.currentContext().getSourceCode(),
                         RudiStack.currentContext().getBranchStartLineNumber(),
@@ -60,10 +60,10 @@ public class SkipLineProcessor implements LineProcessor {
         }
         // we are in false branch
         else if (ControlBranch.FALSE == RudiStack.currentContext().getControlBranch()) {
-            if (bracketLevel() == 1 &&
+            if (bracketLevel() >= RudiStack.currentContext().getControlExpressionBracketDepth() + 1 &&
                     RudiStack.currentContext().getBranchStartLineNumber() == 0) {
                 RudiStack.currentContext().setBranchStartLineNumber(lineNumber);
-            } else if (bracketLevel() == 0) {
+            } else if (bracketLevel() <= RudiStack.currentContext().getControlExpressionBracketDepth()) {
                 RudiStack.currentContext().setFalseSource(new RudiSource(
                         RudiStack.currentContext().getSourceCode(),
                         RudiStack.currentContext().getBranchStartLineNumber(),
@@ -90,16 +90,19 @@ public class SkipLineProcessor implements LineProcessor {
                 for (int i = 1; i <= ctx.getSourceCode().totalLines(); i++) {
                     DefaultLineProcessor.getInstance().doProcess(i, ctx.getSourceCode().getLine(i));
                 }
-                RudiStack.getInstance().pop();
+                // fake an 'end' commend so cached conditions have a chance to execute
+                DefaultLineProcessor.getInstance().doProcess(ctx.getSourceCode().totalLines() + 1, "end");
             } else if (RudiContext.ControlType.WHILE == controlType) {
                 Constant condition = evaluateCondition(RudiStack.currentContext().getControlExpressionLineNumber());
                 while ((Boolean) condition.getValue()) {
                     ctx.setSourceCode(RudiStack.currentContext().getTrueSource());
+                    ctx.setExecutionMode(true);
                     RudiStack.getInstance().push(ctx);
                     for (int i = 1; i <= ctx.getSourceCode().totalLines(); i++) {
                         DefaultLineProcessor.getInstance().doProcess(i, ctx.getSourceCode().getLine(i));
                     }
-                    RudiStack.getInstance().pop();
+                    // fake an 'end' commend so cached conditions have a chance to execute
+                    DefaultLineProcessor.getInstance().doProcess(ctx.getSourceCode().totalLines() + 1, "end");
                     condition = evaluateCondition(RudiStack.currentContext().getControlExpressionLineNumber());
                 }
             } else {
@@ -107,6 +110,7 @@ public class SkipLineProcessor implements LineProcessor {
             }
 
             // reset
+            RudiStack.currentContext().setControlExpressionBracketDepth(0);
             RudiStack.currentContext().setControlExpressionLineNumber(0);
             RudiStack.currentContext().setControlType(null);
             RudiStack.currentContext().setControlExpression(null);

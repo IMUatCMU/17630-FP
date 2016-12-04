@@ -39,6 +39,13 @@ public class PrintLineProcessor implements LineProcessor {
 
     @Override
     public void doProcess(int lineNumber, String line) {
+        if (!RudiStack.currentContext().isExecutionMode()) {
+            throw new CannotProcessLineException(
+                    RudiUtils.resolveGlobalLineNumber(lineNumber),
+                    "Misplaced value print statement: " + line
+            );
+        }
+
         line = RudiUtils.stripComments(line).trim();
         assert line.startsWith(RudiConstant.PRINT_COMMAND);
 

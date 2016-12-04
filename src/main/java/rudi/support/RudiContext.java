@@ -211,6 +211,7 @@ public class RudiContext implements VariableRegistrar {
     // Control structure
     // =================================================================================================================
 
+    private int controlExpressionBracketDepth = 0;
     private int controlExpressionLineNumber = 0;
     private String controlExpression = null;
     private ControlType controlType = null;
@@ -227,6 +228,14 @@ public class RudiContext implements VariableRegistrar {
 
     public enum ControlType {
         IF, WHILE
+    }
+
+    public int getControlExpressionBracketDepth() {
+        return controlExpressionBracketDepth;
+    }
+
+    public void setControlExpressionBracketDepth(int controlExpressionBracketDepth) {
+        this.controlExpressionBracketDepth = controlExpressionBracketDepth;
     }
 
     public int getControlExpressionLineNumber() {
