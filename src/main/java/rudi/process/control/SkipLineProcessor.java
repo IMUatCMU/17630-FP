@@ -95,6 +95,9 @@ public class SkipLineProcessor implements LineProcessor {
             RudiStack.currentContext().setBranchEndLineNumber(0);
             RudiStack.currentContext().setTrueSource(null);
             RudiStack.currentContext().setFalseSource(new RudiSource(new ArrayList<>()));
+
+            // execute current line
+            DefaultLineProcessor.getInstance().doProcess(lineNumber, line);
         }
     }
 

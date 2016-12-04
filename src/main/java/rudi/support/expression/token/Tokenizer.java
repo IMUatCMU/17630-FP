@@ -21,7 +21,6 @@ public class Tokenizer {
         this.expression = expression;
     }
 
-    // TODO fix this, this is wrong
     public List<String> allTokens() {
         String expr = this.expression;
 

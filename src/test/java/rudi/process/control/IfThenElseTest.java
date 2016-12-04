@@ -32,11 +32,11 @@ public class IfThenElseTest {
                 "program",
                 "decs",
                 "[",
-                "   integer x",
+                "   string x",
                 "]",
                 "begin",
-                "   x = 3",
-                "   if ( x :eq: 3 ) then",
+                "   x = \"hello\"",
+                "   if ( x :eq: \"hello world\" ) then",
                 "   [",
                 "       print \"yes\"",
                 "   ]",
@@ -44,6 +44,7 @@ public class IfThenElseTest {
                 "   [",
                 "       print \"no\"",
                 "   ]",
+                "   print cr",
                 "end"
         ));
         SourcePreProcessor.process(source);
@@ -53,6 +54,6 @@ public class IfThenElseTest {
             DefaultLineProcessor.getInstance().doProcess(i, main.getLine(i));
         }
 
-        Assert.assertEquals("yes", myOut.toString());
+        Assert.assertEquals("no\n", myOut.toString());
     }
 }
