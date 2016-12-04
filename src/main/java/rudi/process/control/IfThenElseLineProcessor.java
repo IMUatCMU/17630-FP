@@ -47,6 +47,7 @@ public class IfThenElseLineProcessor implements LineProcessor {
         // Extract and evaluate condition expression
         line = RudiUtils.stripComments(line).trim();
         String expression = line.substring(IF.length() + 1, line.length() - THEN.length()).trim();
+        RudiStack.currentContext().setControlExpressionLineNumber(lineNumber);
         RudiStack.currentContext().setControlExpression(expression);
         RudiStack.currentContext().setControlType(RudiContext.ControlType.IF);
         RudiStack.currentContext().setControlBranch(RudiContext.ControlBranch.TRUE);

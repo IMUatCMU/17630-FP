@@ -208,23 +208,10 @@ public class RudiContext implements VariableRegistrar {
     }
 
     // =================================================================================================================
-    // ifThenElseCount
-    // =================================================================================================================
-
-    private int ifThenElseCount = 0;
-
-    public int getIfThenElseCount() {
-        return ifThenElseCount;
-    }
-
-    public void setIfThenElseCount(int ifThenElseCount) {
-        this.ifThenElseCount = ifThenElseCount;
-    }
-
-    // =================================================================================================================
     // Control structure
     // =================================================================================================================
 
+    private int controlExpressionLineNumber = 0;
     private String controlExpression = null;
     private ControlType controlType = null;
     private RudiSource trueSource = null;
@@ -240,6 +227,14 @@ public class RudiContext implements VariableRegistrar {
 
     public enum ControlType {
         IF, WHILE
+    }
+
+    public int getControlExpressionLineNumber() {
+        return controlExpressionLineNumber;
+    }
+
+    public void setControlExpressionLineNumber(int controlExpressionLineNumber) {
+        this.controlExpressionLineNumber = controlExpressionLineNumber;
     }
 
     public ControlBranch getControlBranch() {

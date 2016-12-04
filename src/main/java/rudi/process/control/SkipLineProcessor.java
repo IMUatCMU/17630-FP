@@ -79,7 +79,7 @@ public class SkipLineProcessor implements LineProcessor {
 
             RudiContext.ControlType controlType = RudiStack.currentContext().getControlType();
             if (RudiContext.ControlType.IF == controlType) {
-                Constant condition = evaluateCondition(lineNumber);
+                Constant condition = evaluateCondition(RudiStack.currentContext().getControlExpressionLineNumber());
                 if ((Boolean) condition.getValue()) {
                     ctx.setSourceCode(RudiStack.currentContext().getTrueSource());
                 } else {
@@ -92,7 +92,7 @@ public class SkipLineProcessor implements LineProcessor {
                 }
                 RudiStack.getInstance().pop();
             } else if (RudiContext.ControlType.WHILE == controlType) {
-                Constant condition = evaluateCondition(lineNumber);
+                Constant condition = evaluateCondition(RudiStack.currentContext().getControlExpressionLineNumber());
                 while ((Boolean) condition.getValue()) {
                     ctx.setSourceCode(RudiStack.currentContext().getTrueSource());
                     RudiStack.getInstance().push(ctx);
@@ -100,13 +100,14 @@ public class SkipLineProcessor implements LineProcessor {
                         DefaultLineProcessor.getInstance().doProcess(i, ctx.getSourceCode().getLine(i));
                     }
                     RudiStack.getInstance().pop();
-                    condition = evaluateCondition(lineNumber);
+                    condition = evaluateCondition(RudiStack.currentContext().getControlExpressionLineNumber());
                 }
             } else {
                 throw new IllegalStateException("control type not set");
             }
 
             // reset
+            RudiStack.currentContext().setControlExpressionLineNumber(0);
             RudiStack.currentContext().setControlType(null);
             RudiStack.currentContext().setControlExpression(null);
             RudiStack.currentContext().setControlBranch(null);

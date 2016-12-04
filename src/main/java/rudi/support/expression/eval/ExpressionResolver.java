@@ -62,7 +62,8 @@ public class ExpressionResolver {
                     Queue<Token> popped = popFromOperatorStackToLeftParenthesis();
                     while (popped.size() > 0)
                         pushOntoOutputStack(popped.poll());
-                    assert isLeftParenthesis(this.operatorStack.pop());
+                    Token expectedLeftParenthesis = this.operatorStack.pop();
+                    assert isLeftParenthesis(expectedLeftParenthesis);
                 }
             }
         });
