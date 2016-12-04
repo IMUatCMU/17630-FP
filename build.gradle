@@ -5,6 +5,14 @@ apply plugin: 'java'
 
 sourceCompatibility = 1.8
 
+jar {
+    baseName = 'rudi'
+    version =  'final'
+    manifest {
+        attributes 'Main-Class': 'rudi.Main'
+    }
+}
+
 repositories {
     mavenCentral()
 }
