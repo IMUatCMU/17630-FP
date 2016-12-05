@@ -15,6 +15,9 @@ import java.util.stream.Collectors;
 
 /**
  * An implementation of {@link LineProcessor} that executes subroutine.
+ * It will locate the source from {@link RudiSourceRegistry}, configure
+ * a new context on the call stack will all the parameters set. And finally run
+ * it through the configured {@link DefaultLineProcessor} (a chain of processors)
  */
 public class CallSubRoutineLineProcessor implements LineProcessor {
 
@@ -75,6 +78,8 @@ public class CallSubRoutineLineProcessor implements LineProcessor {
                         "Duplicate parameter names."
                 );
             }
+            // for every argument, get it's modifier and accessor and set them on the new context
+            // under the parameter name
             for (int i = 0; i < argList.size(); i++) {
                 try {
                     VariableModifier modifier = RudiStack.currentContext().modifier(argList.get(i));
