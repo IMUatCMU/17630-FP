@@ -4,7 +4,7 @@ import java.util.Stack;
 import java.util.stream.Stream;
 
 /**
- * Stack for {@link RudiContext}
+ * Call stack for {@link RudiContext}
  */
 public class RudiStack extends Stack<RudiContext> {
 

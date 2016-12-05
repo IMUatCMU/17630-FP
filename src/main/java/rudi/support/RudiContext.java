@@ -29,17 +29,15 @@ public class RudiContext implements VariableRegistrar {
         return new RudiContext();
     }
 
+    /**
+     * Create a new context that has the same variable/parameters of
+     * this context. Useful when creating contexts for
+     * @return
+     */
     public RudiContext contextInheritingVariablesAndParameters() {
         RudiContext newCtx = defaultContext();
-//        this.variableRegistrar.forEach((s, variable) -> {
-//            newCtx.paramRegistrar.put(s, new ModifyAccessPair(
-//                    this.modifier(s),
-//                    this.accessor(s)
-//            ));
-//        });
         newCtx.variableRegistrar.putAll(this.variableRegistrar);
         newCtx.paramRegistrar.putAll(this.paramRegistrar);
-        //newCtx.paramRegistrar.putAll(this.paramRegistrar);
         return newCtx;
     }
 
@@ -225,16 +223,16 @@ public class RudiContext implements VariableRegistrar {
     // Control structure
     // =================================================================================================================
 
-    private int controlExpressionBracketDepth = 0;
-    private int controlExpressionLineNumber = 0;
-    private String controlExpression = null;
-    private ControlType controlType = null;
-    private RudiSource trueSource = null;
-    private RudiSource falseSource = new RudiSource(new ArrayList<>());
+    private int controlExpressionBracketDepth = 0;      // the bracket depth on the control expression line
+    private int controlExpressionLineNumber = 0;        // line number of the control expression line
+    private String controlExpression = null;            // text of the control expression
+    private ControlType controlType = null;             // IF or WHILE
+    private RudiSource trueSource = null;               // true branch source
+    private RudiSource falseSource = new RudiSource(new ArrayList<>());     // false branch source, defaulted to empty in absence of 'else'
     private ControlBranch controlBranch = null;         // indicates the branch we are currently in
     private boolean skipMode = false;                   // entering criteria for SkipLineProcessor
-    private int branchStartLineNumber = 0;
-    private int branchEndLineNumber = 0;
+    private int branchStartLineNumber = 0;              // first line of branch source
+    private int branchEndLineNumber = 0;                // last line of branch source
 
     public enum ControlBranch {
         TRUE, FALSE

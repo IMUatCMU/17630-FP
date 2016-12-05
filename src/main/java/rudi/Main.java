@@ -19,19 +19,26 @@ import java.util.stream.Collectors;
 public class Main {
 
     public static void main(String[] args) {
+        // when no arg provided
         if (args.length < 1) {
             System.err.println("Please provide first argument as the absolute path to the RUDI source file.");
             System.exit(-1);
-        } else if (!args[0].endsWith(".rud")) {
+        }
+        // when first arg is not .rud
+        else if (!args[0].endsWith(".rud")) {
             System.err.println("Please provide path to a '.rud' file.");
             System.exit(-1);
         }
 
         try {
+            // create raw source, and set
             RudiSource source = new RudiSource(Files.lines(Paths.get(args[0])).collect(Collectors.toList()));
             RudiSourceRegistry.getInstance().setRawSource(source);
+            // pre-process source
             SourcePreProcessor.process(source);
+            // get main program source
             RudiSource main = RudiSourceRegistry.getInstance().get(RudiConstant.MAIN_PROGRAM_KEY);
+            // execute all lines
             for (int i = 1; i <= main.totalLines(); i++) {
                 DefaultLineProcessor.getInstance().doProcess(i, main.getLine(i));
             }
