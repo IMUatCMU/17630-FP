@@ -33,17 +33,21 @@ public class DecsLineProcessor implements LineProcessor {
     @Override
     public void doProcess(int lineNumber, String line) {
         line = RudiUtils.stripComments(line).trim();
+
+        // decs needs to be on its own line
         if (!line.toLowerCase().equals(RudiConstant.DECS)) {
             throw new CannotProcessLineException(
                     RudiUtils.resolveGlobalLineNumber(lineNumber),
                     "Does not recognized declaration block syntax: " + line);
         }
 
+        // do not allow entering declaration mode twice (i.e. two decs block)
         if (RudiStack.currentContext().isDeclarationConcluded())
             throw new CannotProcessLineException(
                     RudiUtils.resolveGlobalLineNumber(lineNumber),
                     "Cannot have two or more declaration blocks");
 
+        // start declaration mode
         RudiStack.getInstance().peek().setDeclarationMode(true);
     }
 }

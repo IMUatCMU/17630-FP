@@ -36,6 +36,7 @@ public class VariableDeclarationProcessor implements LineProcessor {
 
     @Override
     public void doProcess(int lineNumber, String line) {
+        // disallow variable declaration outside decs block
         if (!RudiStack.getInstance().peek().isDeclarationMode()) {
             throw new CannotProcessLineException(
                     RudiUtils.resolveGlobalLineNumber(lineNumber),
@@ -45,6 +46,7 @@ public class VariableDeclarationProcessor implements LineProcessor {
 
         line = RudiUtils.stripComments(line).trim();
 
+        // resolve variable type
         VarType type = null;
         if (line.toLowerCase().startsWith(TYPE_INTEGER + SPACE)) {
             type = VarType.INTEGER;
@@ -59,6 +61,7 @@ public class VariableDeclarationProcessor implements LineProcessor {
             );
         }
 
+        // resolve variable name
         String variableName = null;
         if (line.toLowerCase().startsWith(TYPE_INTEGER + SPACE)) {
             variableName = line.substring((TYPE_INTEGER + SPACE).length()).trim();
@@ -68,16 +71,19 @@ public class VariableDeclarationProcessor implements LineProcessor {
             variableName = line.substring((TYPE_STRING + SPACE).length()).trim();
         }
 
+        // check if the name violates naming rules (identical to a reserved word)
         if (RudiConstant.RESERVED_WORDS.contains(variableName)) {
             throw new CannotProcessLineException(
                     RudiUtils.resolveGlobalLineNumber(lineNumber),
                     "<" + variableName + "> is reserved."
             );
         }
-        // TODO
+
+        // <decided not to do>
         // maybe do some additional checks for variable name formats
         // i.e. a-zA-Z0-9 and do not start with number
 
+        // declare a variable, handle error when variable with same name already exists
         try {
             RudiStack.getInstance().peek().declare(new Variable(type, variableName));
         } catch (DuplicateVariableDeclarationException ex) {
