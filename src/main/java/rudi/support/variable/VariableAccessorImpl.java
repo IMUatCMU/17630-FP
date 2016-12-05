@@ -3,7 +3,9 @@ package rudi.support.variable;
 import java.util.Map;
 
 /**
- * Default implementation of {@link VariableAccessor}
+ * Default implementation of {@link VariableAccessor}. It holds
+ * the reference of the variable registrar from {@link rudi.support.RudiContext}
+ * so we can achieve "pass by reference"
  */
 public class VariableAccessorImpl implements VariableAccessor {
 
