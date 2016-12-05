@@ -30,12 +30,15 @@ public class StartingBracketLineProcessor implements LineProcessor {
     @Override
     public void doProcess(int lineNumber, String line) {
         line = RudiUtils.stripComments(line).trim();
+
+        // bracket should be its own line
         if (!RudiConstant.START_BRAC.equals(line))
             throw new CannotProcessLineException(
                     RudiUtils.resolveGlobalLineNumber(lineNumber),
                     "Start bracket should be its own line."
             );
 
+        // no brackets in places outside decs and routine body
         if (!RudiStack.currentContext().isDeclarationMode() && !RudiStack.currentContext().isExecutionMode()) {
             throw new CannotProcessLineException(
                     RudiUtils.resolveGlobalLineNumber(lineNumber),
@@ -46,7 +49,7 @@ public class StartingBracketLineProcessor implements LineProcessor {
         // increase count
         RudiStack.currentContext().increaseBracketDepth();
 
-        // declaration mode
+        // declaration mode, disallow nested brackets
         if (RudiStack.currentContext().isDeclarationMode() && RudiStack.currentContext().getBracketDepth() > 1) {
             throw new CannotProcessLineException(
                     RudiUtils.resolveGlobalLineNumber(lineNumber),

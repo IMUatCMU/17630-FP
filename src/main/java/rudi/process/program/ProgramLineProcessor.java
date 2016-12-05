@@ -32,8 +32,11 @@ public class ProgramLineProcessor implements LineProcessor {
 
     @Override
     public void doProcess(int lineNumber, String line) {
+        // create empty context
         RudiContext context = RudiContext.defaultContext();
+        // set the main source
         context.setSourceCode(RudiSourceRegistry.getInstance().get(RudiConstant.MAIN_PROGRAM_KEY));
+        // push context onto call stack
         RudiStack.getInstance().push(context);
     }
 }

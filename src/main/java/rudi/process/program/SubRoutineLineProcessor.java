@@ -28,5 +28,7 @@ public class SubRoutineLineProcessor implements LineProcessor {
     @Override
     public void doProcess(int lineNumber, String line) {
         // do nothing
+        // the context shall be prepared and pushed on by its caller
+        // see CallSubRoutineLineProcessor
     }
 }

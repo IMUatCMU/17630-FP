@@ -9,6 +9,7 @@ import rudi.support.RudiUtils;
 
 /**
  * An implementation of {@link LineProcessor} that deals with 'end' command.
+ * It exits the execution mode and pops the context off the call stack.
  */
 public class EndLineProcessor implements LineProcessor {
 
@@ -30,13 +31,16 @@ public class EndLineProcessor implements LineProcessor {
 
     @Override
     public void doProcess(int lineNumber, String line) {
+        // disallow placement outside of program body
         if (!RudiStack.currentContext().isExecutionMode())
             throw new CannotProcessLineException(
                     RudiUtils.resolveGlobalLineNumber(lineNumber),
                     "Illegal placement of end keyword"
             );
 
+        // turn off execution mode
         RudiStack.currentContext().setExecutionMode(false);
+        // pop the context off
         RudiStack.getInstance().pop();
     }
 }

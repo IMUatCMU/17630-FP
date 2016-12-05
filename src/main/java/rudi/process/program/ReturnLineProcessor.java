@@ -35,9 +35,8 @@ public class ReturnLineProcessor implements LineProcessor {
                     "Illegal placement of return keyword"
             );
 
+        // similar to 'end', turn off execution mode and pop off stack
         RudiStack.currentContext().setExecutionMode(false);
         RudiStack.getInstance().pop();
-
-        // TODO maybe throw a friendly exception to notify caller I have ended???
     }
 }
