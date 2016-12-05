@@ -43,12 +43,18 @@ public class ExpressionResolver {
 
     private ConstantToken doResolve(List<Token> tokens) {
         tokens.forEach(token -> {
+            // push operand to output
             if (token.isOperand()) {
                 pushOntoOutputStack(token);
-            } else {
+            }
+            // non-operands (i.e. operator, parenthesis)
+            else {
+                // push to operator stack
                 try {
                     pushOntoOperatorStack(token);
-                } catch (InsufficientPriorityException ipe) {
+                }
+                // insufficient precedence, pop a few off and then push in
+                catch (InsufficientPriorityException ipe) {
                     Queue<Token> popped = popFromOperatorStackWithPriorityNoLessThan(token.priority());
                     while (popped.size() > 0)
                         pushOntoOutputStack(popped.poll());
@@ -58,7 +64,9 @@ public class ExpressionResolver {
                     } catch (Exception ex) {
                         throw new FailedToEvaluateExpressionException("Failed to evaluate operator <" + token.getFaceValue() + ">");
                     }
-                } catch (RightParenthesisPushException rpe) {
+                }
+                // right parenthesis, pop a few off until left parenthesis
+                catch (RightParenthesisPushException rpe) {
                     Queue<Token> popped = popFromOperatorStackToLeftParenthesis();
                     while (popped.size() > 0)
                         pushOntoOutputStack(popped.poll());
@@ -68,10 +76,12 @@ public class ExpressionResolver {
             }
         });
 
+        // push any remaining operators to output
         while (this.operatorStack.size() > 0) {
             pushOntoOutputStack(this.operatorStack.pop());
         }
 
+        // the output should have only one token left
         if (this.outputStack.size() != 1 || !(this.outputStack.peek() instanceof ConstantToken))
             throw new FailedToEvaluateExpressionException("Evaluation failed for expression: non-single result");
 
@@ -132,6 +142,8 @@ public class ExpressionResolver {
     }
 
     private void pushOntoOutputStack(Token token) {
+        // if we have an operator pushing in, pop the appropriate number of operands off and
+        // resolve it to a constant value, before push in.
         if (token.isOperator()) {
             Token first = this.outputStack.pop();
             if (null == first)
@@ -147,9 +159,13 @@ public class ExpressionResolver {
                 throw new FailedToEvaluateExpressionException("Insufficient operands");
 
             this.outputStack.push(token.evaluator().evaluate(second, first));
-        } else if (token.isParenthesis()) {
+        }
+        // if parenthesis, it's an illegal state, something seriously wrong
+        else if (token.isParenthesis()) {
             throw new FailedToEvaluateExpressionException("internal error: parenthesis pushed onto output stack");
-        } else {
+        }
+        // if a variable, get its actual value and push in
+        else {
             if (token instanceof VariableToken) {
                 Variable var = ((VariableToken) token).getAccessor().access();
                 Constant valueTok = new Constant(var.getType(), var.getValue());
