@@ -4,6 +4,10 @@ import rudi.process.LineProcessor;
 import rudi.support.RudiConstant;
 import rudi.support.RudiStack;
 
+/**
+ * Implementation of {@link LineProcessor} that deals with the end comment symbol.
+ * It will leave the comment mode by setting {@link rudi.support.RudiContext#comment} to false.
+ */
 public class EndCommentModeLineProcessor implements LineProcessor {
 
     private static EndCommentModeLineProcessor instance;

@@ -6,7 +6,8 @@ import rudi.support.RudiStack;
 
 /**
  * An implementation of {@link rudi.process.LineProcessor} that
- * attempts to set the current context in comment mode
+ * attempts to enter the comment mode by setting {@link rudi.support.RudiContext#comment}
+ * to true. In comment mode, we will not process anything.
  */
 public class StartCommentModeLineProcessor implements LineProcessor {
 

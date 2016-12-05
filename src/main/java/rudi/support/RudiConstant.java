@@ -51,6 +51,7 @@ public class RudiConstant {
     public static final String ELSE = "else";
     public static final String WHILE = "while";
 
+    // Reserved words used to check variable and subroutine names
     public static final List<String> RESERVED_WORDS = Arrays.asList(
             START_COMMENT, END_COMMENT,
             PROGRAM_COMMAND, SUBROUTINE_COMMAND,

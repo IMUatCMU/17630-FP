@@ -8,7 +8,14 @@ import rudi.support.RudiStack;
 import rudi.support.RudiUtils;
 
 /**
- * An implementation of {@link LineProcessor} to deal with 'while' command
+ * An implementation of {@link LineProcessor} to deal with 'while' command.
+ * This processor does not directly handle the evaluation of the condition or
+ * execution of the branches. Instead, it parses the condition and cache it
+ * on the current context ({@link RudiContext#controlExpression}). Then it
+ * puts the program execution into skip mode ({@link RudiContext#skipMode}).
+ * Under skip mode, most lines will be picked up by {@link SkipLineProcessor}
+ * which is responsible for collecting the source codes for the true branches
+ * of while statement and eventually pick one to execute.
  */
 public class WhileLineProcessor implements LineProcessor {
 
@@ -38,7 +45,11 @@ public class WhileLineProcessor implements LineProcessor {
 
         // Extract condition expression
         line = RudiUtils.stripComments(line).trim();
+
+        // get the expression
         String expression = line.substring(RudiConstant.WHILE.length() + 1).trim();
+
+        // set flags for SkipLineProcessor, similar to what IfThenElseLineProcessor has.
         RudiStack.currentContext().setControlExpressionBracketDepth(RudiStack.currentContext().getBracketDepth());
         RudiStack.currentContext().setControlExpressionLineNumber(lineNumber);
         RudiStack.currentContext().setControlExpression(expression);
