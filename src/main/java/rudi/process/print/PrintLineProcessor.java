@@ -50,11 +50,18 @@ public class PrintLineProcessor implements LineProcessor {
         assert line.startsWith(RudiConstant.PRINT_COMMAND);
 
         String content = line.substring(RudiConstant.PRINT_COMMAND.length()).trim();
+
+        // print a new line
         if (RudiConstant.CR.equals(content.toLowerCase())) {
             System.out.print("\n");
-        } else {
+        }
+        // print an expression (includes variable, literal or expression)
+        else {
             try {
+                // ask the expression resolver to resolve the value of the expression
                 Constant c = ExpressionResolver.resolve(new Tokenizer(content).allTokens());
+
+                // print the value, <null> if null
                 if (null != c.getValue())
                     System.out.print(c.getValue().toString());
                 else
