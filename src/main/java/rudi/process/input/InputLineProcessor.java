@@ -17,7 +17,9 @@ import java.util.Scanner;
 
 /**
  * An implementation of {@link rudi.process.LineProcessor} that executes
- * the 'input' command.
+ * the 'input' command. It awaits user input, check the type of the input
+ * with the expected type of the variable. If matches, it calls the modifier
+ * to modify the value of the variable.
  */
 public class InputLineProcessor implements LineProcessor {
 
@@ -70,6 +72,7 @@ public class InputLineProcessor implements LineProcessor {
                     break;
             }
 
+            // update the value
             modifier.modify(value);
         } catch (VariableNotInRegistrarException e) {
             throw new CannotProcessLineException(
