@@ -68,6 +68,7 @@ public class RudiConstant {
             EQUAL_SIGN,
             CONTINUATION,
             CR,
-            IF, THEN, ELSE, WHILE
+            IF, THEN, ELSE, WHILE,
+            MAIN_PROGRAM_KEY
     );
 }

@@ -153,6 +153,8 @@ public class SourcePreProcessor {
         } else if (RudiConstant.RETURN_COMMAND.equals(line.toLowerCase())) {
             if (currentRoutineName.length() == 0) {
                 throw new CannotProcessLineException(lineNumber, "Cannot end subroutine that was not started");
+            } else if (RudiConstant.RESERVED_WORDS.contains(currentRoutineName.toLowerCase())) {
+                throw new CannotProcessLineException(lineNumber, "Cannot declare subroutine, <" + currentRoutineName + "> is a keyword");
             } else if (currentRoutineName.equals(RudiConstant.MAIN_PROGRAM_KEY)) {
                 throw new CannotProcessLineException(lineNumber, "Cannot end main routine with 'return'.");
             } else if (bracketDepth != 0) {
