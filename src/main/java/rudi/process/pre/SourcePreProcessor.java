@@ -11,6 +11,7 @@ import rudi.support.RudiUtils;
  * 1. strip out all comments
  * 2. concat line continuation together
  * 3. parse source into {@link rudi.support.RudiSourceRegistry}
+ * 4. check the brackets are paired / balanced.
  */
 public class SourcePreProcessor {
 
@@ -81,6 +82,7 @@ public class SourcePreProcessor {
                 throw new CannotProcessLineException(lineNumber, "Start and end bracket should be on its own line");
             }
 
+            // increment and decrement bracket level
             if (line.equals(RudiConstant.START_BRAC))
                 bracketDepth++;
             else if (line.equals(RudiConstant.END_BRAC))
@@ -89,6 +91,7 @@ public class SourcePreProcessor {
 
         // deal with continuation
         if (line.length() > 0) {
+            // needs to continue with the next line, add this line (without ampersand) to the buffer
             if (line.endsWith(RudiConstant.SPACE + RudiConstant.CONTINUATION)) {
                 if (continuationFirstLineNumber == 0) {
                     continuationFirstLineNumber = lineNumber;
@@ -97,7 +100,9 @@ public class SourcePreProcessor {
                         + RudiConstant.SPACE
                         + line.substring(0, line.length() - 1)).trim();
                 clearLine(lineNumber);
-            } else {
+            }
+            // the last line of continuation
+            else {
                 if (continuationSourceBuffer.length() > 0) {
                     continuationSourceBuffer = (continuationSourceBuffer
                             + RudiConstant.SPACE
@@ -111,14 +116,22 @@ public class SourcePreProcessor {
         }
 
         // deal with parsing the source
+
+        // program command
         if (RudiConstant.PROGRAM_COMMAND.equals(line.toLowerCase())) {
+            // current routine is the main one
             if (currentRoutineName.length() == 0) {
                 currentRoutineName = RudiConstant.MAIN_PROGRAM_KEY;
                 currentRoutineStartLineNumber = lineNumber;
-            } else {
+            }
+            // we are already in the middle of a routine, disallow program declaration here.
+            else {
                 throw new CannotProcessLineException(lineNumber, "Cannot embed main function in other routines.");
             }
-        } else if (line.toLowerCase().startsWith(RudiConstant.SUBROUTINE_COMMAND + RudiConstant.SPACE)) {
+        }
+        // subroutine command
+        else if (line.toLowerCase().startsWith(RudiConstant.SUBROUTINE_COMMAND + RudiConstant.SPACE)) {
+            // record the name of the subroutine
             if (currentRoutineName.length() == 0) {
                 try {
                     currentRoutineName = line.substring(
@@ -128,17 +141,28 @@ public class SourcePreProcessor {
                 } catch (StringIndexOutOfBoundsException e) {
                     throw new CannotProcessLineException(lineNumber, "Unrecognized name for subroutine");
                 }
-            } else {
+            }
+            // we are in the middle of another routine, disallow subroutine declaration here.
+            else {
                 throw new CannotProcessLineException(lineNumber, "Cannot embed subroutine declaration in other routines.");
             }
-        } else if (RudiConstant.END_COMMAND.equals(line.toLowerCase())) {
+        }
+        // end command
+        else if (RudiConstant.END_COMMAND.equals(line.toLowerCase())) {
+            // cannot end if did't start
             if (currentRoutineName.length() == 0) {
                 throw new CannotProcessLineException(lineNumber, "Cannot end main routine that was not started");
-            } else if (!currentRoutineName.equals(RudiConstant.MAIN_PROGRAM_KEY)) {
+            }
+            // we can only use end on main program
+            else if (!currentRoutineName.equals(RudiConstant.MAIN_PROGRAM_KEY)) {
                 throw new CannotProcessLineException(lineNumber, "Cannot end subroutine with 'end'.");
-            } else if (bracketDepth != 0) {
+            }
+            // brackets level not balanced
+            else if (bracketDepth != 0) {
                 throw new CannotProcessLineException(lineNumber, "Mismatched brackets");
-            } else {
+            }
+            // program ends, record the main sources
+            else {
                 currentRoutineEndLineNumber = lineNumber;
                 if (RudiSourceRegistry.getInstance().containsKey(RudiConstant.MAIN_PROGRAM_KEY))
                     throw new CannotProcessLineException(lineNumber, "Main program cannot be declared twice");
@@ -150,16 +174,27 @@ public class SourcePreProcessor {
                 currentRoutineStartLineNumber = 0;
                 currentRoutineEndLineNumber = 0;
             }
-        } else if (RudiConstant.RETURN_COMMAND.equals(line.toLowerCase())) {
+        }
+        // return command
+        else if (RudiConstant.RETURN_COMMAND.equals(line.toLowerCase())) {
+            // cannot end/return subroutine if didn't start
             if (currentRoutineName.length() == 0) {
                 throw new CannotProcessLineException(lineNumber, "Cannot end subroutine that was not started");
-            } else if (RudiConstant.RESERVED_WORDS.contains(currentRoutineName.toLowerCase())) {
+            }
+            // check if name is in reserved words
+            else if (RudiConstant.RESERVED_WORDS.contains(currentRoutineName.toLowerCase())) {
                 throw new CannotProcessLineException(lineNumber, "Cannot declare subroutine, <" + currentRoutineName + "> is a keyword");
-            } else if (currentRoutineName.equals(RudiConstant.MAIN_PROGRAM_KEY)) {
+            }
+            // cannot use return on main program
+            else if (currentRoutineName.equals(RudiConstant.MAIN_PROGRAM_KEY)) {
                 throw new CannotProcessLineException(lineNumber, "Cannot end main routine with 'return'.");
-            } else if (bracketDepth != 0) {
+            }
+            // imbalanced brackets
+            else if (bracketDepth != 0) {
                 throw new CannotProcessLineException(lineNumber, "Mismatched brackets");
-            } else {
+            }
+            // record the source by the subroutine name
+            else {
                 currentRoutineEndLineNumber = lineNumber;
                 if (RudiSourceRegistry.getInstance().containsKey(currentRoutineName))
                     throw new CannotProcessLineException(lineNumber, "Subroutine <"+ currentRoutineName + "> cannot be declared twice");
