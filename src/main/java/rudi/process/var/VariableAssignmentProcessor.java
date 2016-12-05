@@ -55,13 +55,16 @@ public class VariableAssignmentProcessor implements LineProcessor {
 
         line = RudiUtils.stripComments(line).trim();
 
+        // get the lhs and rhs of the = sign
         String variableName = line.substring(0, line.indexOf(RudiConstant.EQUAL_SIGN)).trim();
         String expression = line.substring(line.indexOf(RudiConstant.EQUAL_SIGN) + 1).trim();
 
         try {
+            // get the modifier of the lhs variable
             VariableModifier modifier = RudiStack.currentContext().modifier(variableName);
-            //Constant newValue = ExpressionResolver.resolve(Arrays.asList(expression.split(RudiConstant.SPACE)));
+            // resolve the rhs expression to a constant value
             Constant newValue = ExpressionResolver.resolve(new Tokenizer(expression).allTokens());
+            // update value
             modifier.modify(newValue.getValue());
         } catch (Exception ex) {
             throw new CannotProcessLineException(

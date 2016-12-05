@@ -15,7 +15,10 @@ import rudi.process.var.VariableAssignmentProcessor;
 import java.util.Arrays;
 
 /**
- * A default collection of all the processors.
+ * A default collection of all the processors. This is the processor
+ * chain used by our RUDI interpreter. It bootstrap all other
+ * {@link LineProcessor} implementations in a specific order to provide
+ * combined functionality. Order is sensitive.
  */
 public class DefaultLineProcessor extends DelegatingLineProcessor {
 
