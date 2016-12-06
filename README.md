@@ -4,6 +4,7 @@ To evaluate this project, make sure `Java 1.8` is installed
 
 ## Package Guide
 
+- `FPDJM.pdf`: report
 - `build/classes`: contains the compiled java classes
 - `src`: contains the source code
 - `run`: contains run scripts and the `jar` file
