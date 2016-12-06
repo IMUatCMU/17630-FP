@@ -11,6 +11,7 @@ import rudi.support.RudiSourceRegistry;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
 
@@ -43,6 +44,9 @@ public class Main {
             for (int i = 1; i <= main.totalLines(); i++) {
                 DefaultLineProcessor.getInstance().doProcess(i, main.getLine(i));
             }
+        } catch (NoSuchFileException e) {
+            System.err.println("File not found: " + e.getMessage());
+            System.exit(-1);
         } catch (IOException e0) {
             System.err.println("Failed to read RUDI source file provided by first argument.");
             System.exit(-1);
