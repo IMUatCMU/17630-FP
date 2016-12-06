@@ -49,7 +49,7 @@ public class SourcePreProcessor {
         } else if (this.currentRoutineName.length() > 0) {
             throw new CannotProcessLineException(
                     this.source.totalLines(),
-                    "Routine declaration is not terminated properly.");
+                    "Routine declaration is not terminated properly, missing 'end' or 'return'?");
         }
     }
 

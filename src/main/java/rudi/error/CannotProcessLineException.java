@@ -9,7 +9,7 @@ public class CannotProcessLineException extends RuntimeException {
     private final int lineNumber;
 
     public CannotProcessLineException(int lineNumber) {
-        super("Processing failed");
+        super("Processing failed, possible invalid statement?");
         this.lineNumber = lineNumber;
     }
 

@@ -11,7 +11,7 @@ public class TypeMismatchException extends RuntimeException {
     private final Object newValue;
 
     public TypeMismatchException(Variable variable, Object newValue) {
-        super("Type mismatch. Expected: " + variable.getType().toString() + " Got: " + newValue.getClass());
+        super("Type mismatch. Expected: " + variable.getType().toString() + " Got: " + newValue.getClass().getSimpleName().toUpperCase());
         this.variable = variable;
         this.newValue = newValue;
     }

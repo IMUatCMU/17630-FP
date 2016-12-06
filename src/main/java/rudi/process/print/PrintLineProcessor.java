@@ -42,7 +42,7 @@ public class PrintLineProcessor implements LineProcessor {
         if (!RudiStack.currentContext().isExecutionMode()) {
             throw new CannotProcessLineException(
                     RudiUtils.resolveGlobalLineNumber(lineNumber),
-                    "Misplaced value print statement: " + line
+                    "Misplaced value print statement: " + line + ", missing 'begin'?"
             );
         }
 

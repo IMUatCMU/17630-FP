@@ -32,7 +32,7 @@ public class ReturnLineProcessor implements LineProcessor {
         if (!RudiStack.currentContext().isExecutionMode())
             throw new CannotProcessLineException(
                     RudiUtils.resolveGlobalLineNumber(lineNumber),
-                    "Illegal placement of return keyword"
+                    "Illegal placement of return keyword, missing 'begin'?"
             );
 
         // similar to 'end', turn off execution mode and pop off stack

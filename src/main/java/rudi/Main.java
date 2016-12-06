@@ -8,6 +8,7 @@ import rudi.support.RudiConstant;
 import rudi.support.RudiSource;
 import rudi.support.RudiSourceRegistry;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;

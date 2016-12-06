@@ -162,7 +162,7 @@ public class ExpressionResolver {
         }
         // if parenthesis, it's an illegal state, something seriously wrong
         else if (token.isParenthesis()) {
-            throw new FailedToEvaluateExpressionException("internal error: parenthesis pushed onto output stack");
+            throw new FailedToEvaluateExpressionException("Failed to resolve expression, mismatched parenthesis?");
         }
         // if a variable, get its actual value and push in
         else {

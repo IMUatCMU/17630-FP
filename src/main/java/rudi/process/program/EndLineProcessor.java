@@ -35,7 +35,7 @@ public class EndLineProcessor implements LineProcessor {
         if (!RudiStack.currentContext().isExecutionMode())
             throw new CannotProcessLineException(
                     RudiUtils.resolveGlobalLineNumber(lineNumber),
-                    "Illegal placement of end keyword"
+                    "Illegal placement of end keyword, missing 'begin'?"
             );
 
         // turn off execution mode
