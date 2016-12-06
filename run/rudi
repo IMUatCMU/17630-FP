@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# exec - Replaces the shell with the command.
+# $(dirname "$BASH_SOURCE") - Gets the path to this script.
+#    This is so you can run this script from any directory.
+# "%@" - Pass all arguments.
+# Using double quotes for the jar to accommodate for
+#    spaces in the file path.
+exec java -jar "$(dirname "$BASH_SOURCE")/rudi-final.jar" "$@"
